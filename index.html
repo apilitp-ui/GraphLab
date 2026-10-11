@@ -1020,15 +1020,29 @@ function onPointerDown(e) {
         updateVertexUI();
         render();
       } else if (hv.id !== edgeSrcVertex) {
-        pushUndo();
-        const eid = 'e' + (nextEId++);
-        edges.push({ id: eid, from: edgeSrcVertex, to: hv.id, weight: 1, curve: 0 });
-        edgeSrcVertex = null;
-        tempEdgeEnd = null;
-        selectedEdge = eid;
-        updateEdgeUI();
-        render();
-      }
+  // ตรวจว่ามีเส้นเชื่อมระหว่างจุดคู่นี้อยู่แล้วหรือไม่
+  const dup = edges.find(ed =>
+    (ed.from === edgeSrcVertex && ed.to === hv.id) ||
+    (!directed && ed.from === hv.id && ed.to === edgeSrcVertex)
+  );
+  if (dup) {
+    // มีอยู่แล้ว: ไม่สร้างเส้นใหม่ แต่เลือกเส้นเดิมให้แก้น้ำหนักแทน
+    edgeSrcVertex = null;
+    tempEdgeEnd = null;
+    selectedEdge = dup.id;
+    updateEdgeUI();
+    render();
+    return;
+  }
+  pushUndo();
+  const eid = 'e' + (nextEId++);
+  edges.push({ id: eid, from: edgeSrcVertex, to: hv.id, weight: 1, curve: 0 });
+  edgeSrcVertex = null;
+  tempEdgeEnd = null;
+  selectedEdge = eid;
+  updateEdgeUI();
+  render();
+}
     } else {
       edgeSrcVertex = null;
       tempEdgeEnd = null;
@@ -1433,119 +1447,46 @@ function autoLoadState() {
   updateAlgoSelects();
 }
 
-// ─── EXPORT PNG ───
 function exportPNG() {
+  // 1) วาดหน้าจอใหม่ เพื่อให้ canvas แสดงขั้นตอนแอนิเมชันปัจจุบัน
+  render();
+
+  const src = ctx.canvas;            // canvas หลักที่กำลังแสดงผลอยู่
   const scale = 2;
+  const expW = src.width * scale;
+  const expH = src.height * scale;
+
   const expCanvas = document.createElement('canvas');
-  const expW = W * scale;
-  const expH = H * scale;
   expCanvas.width = expW;
   expCanvas.height = expH;
   const ectx = expCanvas.getContext('2d');
 
-  ectx.fillStyle = UI.canvasBg;
-  ectx.fillRect(0, 0, expW, expH);
+  // 2) คัดลอกภาพจากหน้าจอ (มีไฮไลต์, สี, เส้นทาง, MST, flow ครบ)
+  ectx.imageSmoothingEnabled = true;
+  ectx.imageSmoothingQuality = 'high';
+  ectx.drawImage(src, 0, 0, expW, expH);
 
-  ectx.save();
-  ectx.translate(expW/2, expH/2);
-  ectx.scale(camZoom * scale, camZoom * scale);
-  ectx.translate(-camX, -camY);
-
-  edges.forEach(e => {
-    const fromV = vertices.find(v => v.id === e.from);
-    const toV = vertices.find(v => v.id === e.to);
-    if (!fromV || !toV) return;
-
-    const cx2 = (fromV.x + toV.x) / 2;
-    const cy2 = (fromV.y + toV.y) / 2;
-    const dx = toV.x - fromV.x;
-    const dy = toV.y - fromV.y;
-    const len = Math.sqrt(dx*dx + dy*dy) || 1;
-    const nx = -dy / len;
-    const ny = dx / len;
-    const curveAmt = (e.curve || 0) * 0.5;
-    const cpx = cx2 + nx * curveAmt;
-    const cpy = cy2 + ny * curveAmt;
-
-    ectx.strokeStyle = UI.edgeColor;
-    ectx.lineWidth = EDGE_WIDTH;
-    ectx.beginPath();
-    if (curveAmt !== 0) {
-      ectx.moveTo(fromV.x, fromV.y);
-      ectx.quadraticCurveTo(cpx, cpy, toV.x, toV.y);
-    } else {
-      ectx.moveTo(fromV.x, fromV.y);
-      ectx.lineTo(toV.x, toV.y);
-    }
-    ectx.stroke();
-
-    const lx = curveAmt !== 0 ? cpx : cx2;
-    const ly = curveAmt !== 0 ? cpy : cy2;
-    ectx.font = 'bold 12px Inter, sans-serif';
-    ectx.textAlign = 'center';
-    ectx.textBaseline = 'middle';
-    const lt = String(e.weight);
-    const ltw = ectx.measureText(lt).width;
-    ectx.fillStyle = 'rgba(26,43,60,0.9)';
-    ectx.beginPath();
-    ectx.roundRect(lx - ltw/2 - 4, ly - 10, ltw + 8, 20, 4);
-    ectx.fill();
-    ectx.fillStyle = '#E0E0E0';
-    ectx.fillText(lt, lx, ly);
-  });
-
-  vertices.forEach(v => {
-    const x = Math.round(v.x);
-    const y = Math.round(v.y);
-    const r = VERTEX_RADIUS;
-    const fillColor = v.color || UI.vertexDefault;
-
-    ectx.fillStyle = fillColor;
-    ectx.beginPath();
-    ectx.arc(x, y, r, 0, Math.PI * 2);
-    ectx.fill();
-    
-    ectx.strokeStyle = UI.vertexBorder;
-    ectx.lineWidth = 2;
-    ectx.stroke();
-
-    ectx.font = 'bold 12px Inter, sans-serif';
-    ectx.textAlign = 'center';
-    ectx.textBaseline = 'middle';
-    ectx.fillStyle = (fillColor !== UI.vertexDefault && fillColor !== UI.gold) ? UI.textLight : UI.textDark;
-    ectx.fillText(v.id, x, y);
-
-    const label = v.name;
-    if (label) {
-      ectx.font = 'bold 14px Inter, sans-serif';
-      ectx.textAlign = 'center';
-      ectx.textBaseline = 'top';
-      const tw = ectx.measureText(label).width;
-      ectx.fillStyle = 'rgba(27,43,60,0.85)';
-      ectx.beginPath();
-      ectx.roundRect(x - tw/2 - 6, y + r + 6, tw + 12, 22, 4);
-      ectx.fill();
-      ectx.fillStyle = UI.textLight;
-      ectx.fillText(label, x, y + r + 10);
-    }
-  });
-
-  ectx.restore();
-
-  // Info stamp
+  // 3) แถบข้อมูลด้านล่าง + บอกอัลกอริทึมและขั้นตอนที่กำลังแสดง
+  let info = `Graph Lab  |V|=${vertices.length}  |E|=${edges.length}  ${directed ? 'Directed' : 'Undirected'}`;
+  if (algoSteps.length > 0) {
+    info += `  |  ${algoType}  step ${algoStep + 1}/${algoSteps.length}`;
+  }
   ectx.fillStyle = 'rgba(0,0,0,0.6)';
-  ectx.fillRect(0, expH - 32, expW, 32);
-  ectx.font = 'bold 13px Inter, sans-serif';
+  ectx.fillRect(0, expH - 32 * scale, expW, 32 * scale);
+  ectx.font = `bold ${13 * scale}px Inter, sans-serif`;
   ectx.fillStyle = '#FFFFFF';
   ectx.textAlign = 'left';
   ectx.textBaseline = 'middle';
-  ectx.fillText(`Graph Lab  |V|=${vertices.length}  |E|=${edges.length}  ${directed ? 'Directed' : 'Undirected'}`, 16, expH - 16);
+  ectx.fillText(info, 16 * scale, expH - 16 * scale);
 
+  // 4) ดาวน์โหลด
   const link = document.createElement('a');
-  link.download = 'graph_lab_export.png';
+  link.download = algoSteps.length
+    ? `graph_lab_${algoType}_step${algoStep + 1}.png`
+    : 'graph_lab_export.png';
   link.href = expCanvas.toDataURL('image/png');
   link.click();
-  toast('PNG exported (scale 2×) 📷', 'success');
+  toast('PNG exported (current animation frame) 📷', 'success');
 }
 
 // ─── ALGO SELECTS ───
