@@ -131,6 +131,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-dark
 .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
 .btn-row .btn{margin:0;flex:1}
 
+.btn[data-mode="delete"].active { background:#C0392B; }
+.btn[data-mode="delete"].active:hover { background:#A93226; }
+
 /* Info box */
 .info-box{
   background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;
@@ -293,6 +296,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-dark
           <button class="btn sm" data-mode="edge" onclick="setMode('edge')">+ Edge</button>
           <button class="btn sm" data-mode="move" onclick="setMode('move')">✋ Move</button>
           <button class="btn sm" data-mode="select" onclick="setMode('select')">🎯 Select</button>
+          <button class="btn sm" data-mode="delete" onclick="setMode('delete')">🗑 Delete</button>
+
         </div>
         <div class="divider"></div>
 
@@ -890,8 +895,24 @@ function drawEdge(e) {
     labelText = e.weight !== 1 ? String(e.weight) : String(e.weight);
   }
 
-  const lx = curveAmt !== 0 ? cpx : cx;
-  const ly = curveAmt !== 0 ? cpy : cy;
+  // ระยะที่ป้ายน้ำหนักห่างจากเส้น (พิกเซล) ปรับเพิ่มหรือลดได้
+  const LABEL_OFFSET = 18;
+
+  // หาจุดกึ่งกลางบนเส้นจริง (ตำแหน่งเดียวกับลูกศร)
+  let mx, my, side;
+  if (curveAmt !== 0) {
+    mx = (cx + cpx) / 2;          // จุดกึ่งกลางบนเส้นโค้ง Bézier ที่ t = 0.5
+    my = (cy + cpy) / 2;
+    side = Math.sign(curveAmt);   // ขยับป้ายออกไปด้านนอกส่วนโค้ง
+  } else {
+    mx = cx;
+    my = cy;
+    side = 1;
+  }
+
+  // เลื่อนป้ายตั้งฉากกับเส้น (ใช้เวกเตอร์ปกติ nx, ny ที่คำนวณไว้แล้ว)
+  const lx = mx + nx * LABEL_OFFSET * side;
+  const ly = my + ny * LABEL_OFFSET * side;
 
   const fontSize = Math.max(10, 12);
   ctx.font = `bold ${fontSize}px Inter, sans-serif`;
@@ -999,6 +1020,29 @@ function onPointerDown(e) {
 
   const w = screenToWorld(e.offsetX, e.offsetY);
   const hv = hitVertex(w.x, w.y);
+
+    // ===== โหมดลบ: คลิกที่จุดหรือเส้นแล้วลบทันที =====
+  if (mode === 'delete') {
+    if (hv) {
+      // ตรวจจุดยอดก่อน เพราะจุดยอดอยู่ทับปลายเส้น
+      pushUndo();
+      const name = hv.name || hv.id;
+      deleteVertex(hv.id);            // ลบจุดยอดพร้อมเส้นทุกเส้นที่ต่อกับจุดนี้
+      toast(`ลบจุด ${name} แล้ว`, 'success');
+    } else {
+      const he = hitEdge(w.x, w.y);
+      if (he) {
+        pushUndo();
+        edges = edges.filter(ed => ed.id !== he.id);
+        if (selectedEdge === he.id) selectedEdge = null;
+        updateEdgeUI();
+        updateAlgoSelects();
+        render();
+        toast('ลบเส้นเชื่อมแล้ว', 'success');
+      }
+    }
+    return;                            // ไม่ทำงานในโหมดอื่นต่อ
+  }
 
   if (mode === 'move' || (mode === 'select' && hv)) {
     if (hv) {
@@ -1211,10 +1255,12 @@ function setMode(m) {
   document.querySelectorAll('[data-mode]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === m);
   });
+  const DELETE_CURSOR = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><path d='M5 5L19 19M19 5L5 19' stroke='red' stroke-width='3' stroke-linecap='round'/></svg>") 12 12, pointer`;
   canvas.style.cursor =
     m === 'vertex' ? 'crosshair' :
     m === 'edge' ? 'pointer' :
-    m === 'move' ? 'grab' : 'default';
+    m === 'move' ? 'grab' :
+    m === 'delete' ? DELETE_CURSOR : 'default';
   render();
 }
 
