@@ -115,9 +115,14 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
   .logo-cat{left:-5px;top:-7px;width:25px;height:25px;font-size:17px}
   .sub{font-size:10px}
 }
-.dockhead{display:flex;align-items:flex-start;gap:6px;padding-top:6px}
-.tabgrid{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;padding:2px 4px 8px 0}
+.dockhead{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding-top:6px}
+.selected-algorithm{justify-content:flex-start;text-align:left;white-space:normal;min-width:0}
+.tab-toggle{font-size:19px;padding:0 10px}
+.tabgrid{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;padding:2px 4px 8px 0}
+.tabgrid[hidden]{display:none}
 .btn.tab{font-size:14px;min-width:0;width:100%;padding:6px 6px;white-space:normal;line-height:1.2;text-align:center}
+.learning-tabs,.example-categories{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+.learning-tabs .btn,.example-categories .btn{flex:1}
 
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
 .desc{background:#fff9e8;border:3px solid #6b4727;padding:8px 10px;font-size:14px;line-height:1.5;box-shadow:3px 3px 0 #241b20}
@@ -134,8 +139,6 @@ input[type=range]{flex:1;accent-color:var(--red);height:34px;min-width:120px}
 .speed .btn{flex:1;font-size:14px}
 .stepbox{background:var(--ink);color:var(--green);border:3px solid #000;padding:10px 12px;min-height:72px;font-size:15px;line-height:1.55;box-shadow:inset 0 0 0 3px var(--navy);-webkit-user-select:text;user-select:text}
 .quiz-choice,.term-button{margin:4px;min-height:40px}
-.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.compare-card{border:3px solid var(--ink);padding:10px;background:#fffbe6;box-shadow:3px 3px 0 var(--ink)}
 .classic-card{border:2px solid var(--ink);background:#fffbe6;padding:10px;margin:8px 0}
 .glossary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px}
 .knight-board{display:grid;grid-template-columns:repeat(8,minmax(26px,1fr));max-width:440px;border:3px solid var(--ink)}
@@ -187,7 +190,7 @@ input[type=range]{flex:1;accent-color:var(--red);height:34px;min-width:120px}
 .pcard b{font-size:16px}
 .pcard{min-height:190px}
 .pcard>span{flex:1}
-#hint,#toolStatus,.desc,.note,.classic-card,.compare-card,.tbl{font-size:calc(14px * var(--font-scale,1))}
+#hint,#toolStatus,.desc,.note,.classic-card,.tbl{font-size:calc(14px * var(--font-scale,1))}
 .stepbox{font-size:calc(15px * var(--font-scale,1))}
 .hero{font-size:calc(17px * var(--font-scale,1))}
 .quiz-choice.answer-wrong{background:#ffc2c2!important;border-color:#b13e53!important;color:#6e1423!important}
@@ -216,6 +219,7 @@ ol.steps li{margin-bottom:6px}
       <button type="button" class="btn tbtn" data-tool="edit" title="แก้ชื่อ / น้ำหนัก"><span class="ic">✏️</span>แก้ชื่อ / น้ำหนัก</button>
       <button type="button" class="btn tbtn" data-tool="style" title="สี / รูปแบบจุดและเส้น"><span class="ic">🎨</span>สี / รูปแบบ</button>
       <button type="button" class="btn tbtn" data-tool="bend" title="ดัดเส้น"><span class="ic">〰️</span>ดัดเส้น</button>
+      <button type="button" class="btn tbtn" data-tool="reverse" title="กลับทิศทางเส้น"><span class="ic">↔️</span>กลับทิศเส้น</button>
       <button type="button" class="btn tbtn" data-tool="del" title="ลบ"><span class="ic">🗑️</span>ลบ</button>
       <span class="toolbar-divider" role="separator"></span>
       <span class="toolbar-section" id="otherToolsLabel">กราฟและเครื่องมือ</span>
@@ -224,19 +228,15 @@ ol.steps li{margin-bottom:6px}
       <button type="button" class="btn tbtn" id="aRedo" title="Redo" disabled><span class="ic">↷</span>Redo</button>
       <button type="button" class="btn tbtn" id="aStraight" title="ทำเส้นตรง"><span class="ic">📏</span>ทำเส้นตรง</button>
       <button type="button" class="btn tbtn" id="aClear" title="ล้างกราฟ"><span class="ic">🧹</span>ล้างกราฟ</button>
-      <button type="button" class="btn tbtn" id="aPreset" title="ตัวอย่างอัลกอริทึม"><span class="ic">📂</span>ตัวอย่างอัลกอริทึม</button>
-      <button type="button" class="btn tbtn" id="aCompare" title="เปรียบเทียบอัลกอริทึม"><span class="ic">⚖️</span>เปรียบเทียบอัลกอริทึม</button>
-      <button type="button" class="btn tbtn" id="aClassics" title="บทเรียนคลาสสิก"><span class="ic">📚</span>บทเรียนคลาสสิก</button>
-      <button type="button" class="btn tbtn" id="aGlossary" title="อภิธานศัพท์"><span class="ic">📖</span>อภิธานศัพท์</button>
-      <button type="button" class="btn tbtn" id="aPractice" title="สุ่มโจทย์ฝึก"><span class="ic">🎯</span>สุ่มโจทย์ฝึก</button>
-      <button type="button" class="btn tbtn" id="predictStep" title="ทายขั้นถัดไป"><span class="ic">🔮</span>ทายขั้นถัดไป</button>
+      <button type="button" class="btn tbtn" id="aPreset" title="ตัวอย่าง"><span class="ic">📂</span>ตัวอย่าง</button>
+      <button type="button" class="btn tbtn" id="aLearning" title="การเรียนรู้"><span class="ic">📚</span>การเรียนรู้</button>
       <button type="button" class="btn tbtn" id="aGenerate" title="สร้างกราฟ"><span class="ic">🧩</span>สร้างกราฟ</button>
       <button type="button" class="btn tbtn" id="aLayout" title="จัดวางกราฟ"><span class="ic">🪄</span>จัดวางกราฟ</button>
       <button type="button" class="btn tbtn" id="aPNG" title="ส่งออก PNG"><span class="ic">🖼️</span>ส่งออก PNG</button>
       <button type="button" class="btn tbtn" id="aExportSteps" title="ส่งออกขั้นตอน"><span class="ic">📄</span>ส่งออกขั้นตอน</button>
       <button type="button" class="btn tbtn" id="aLibrary" title="คลังกราฟ"><span class="ic">🗃️</span>คลังกราฟ</button>
-      <button type="button" class="btn tbtn" id="aSettings" title="ตั้งค่าพื้นหลัง / จุดยอด"><span class="ic">⚙️</span>ตั้งค่าพื้นหลัง / จุดยอด</button>
-      <button type="button" class="btn tbtn" id="aHelp" title="วิธีใช้"><span class="ic">❓</span>วิธีใช้</button>
+      <button type="button" class="btn tbtn" id="aSettings" title="ตั้งค่าพื้นหลัง / จุดยอด"><span class="ic">⚙️</span></button>
+      <button type="button" class="btn tbtn" id="aHelp" title="วิธีใช้" aria-label="วิธีใช้"><span class="ic">❓</span></button>
     </nav>
   </header>
   <div id="hint"></div>
@@ -260,6 +260,8 @@ ol.steps li{margin-bottom:6px}
     <aside id="dock">
       <aside id="practicePanel" aria-live="polite"></aside>
       <div class="dockhead">
+        <button type="button" class="btn tab selected-algorithm" id="currentAlgorithm" aria-label="อัลกอริทึมที่เลือก"></button>
+        <button type="button" class="btn tab-toggle" id="toggleTabs" aria-label="เลือกอัลกอริทึมอื่น" aria-expanded="false">▼</button>
         <div class="tabgrid" id="tabs"></div>
       </div>
       <div id="algoDesc" class="desc collapsible"></div>
@@ -327,11 +329,10 @@ const EDGE_SURFACES = {
 let NR = 22;
 const PARALLEL_CURVE_GAP = 56, MINS = 0.2, MAXS = 4, EPS = 1e-9, LS_KEY = 'graphTheoryLab.v1', UNDO_MAX = 70;
 const PREF_KEY = 'graphTheoryLab.preferences.v1', LIB_KEY = 'graphTheoryLab.library.v1';
-let preferences = {fontSize:14,nodeSize:22,labelStyle:'v',language:'th',patterns:true,backgroundColor:'#f4efe1',backgroundImage:'',defaultVertexImage:''};
+let preferences = {fontSize:14,nodeSize:22,labelStyle:'v',language:'th',patterns:true,hideLabels:false,hideWeights:false,backgroundColor:'#f4efe1',backgroundImage:'',defaultVertexImage:''};
 let library = [];
 let vertexOptions = [], backgroundImage = null;
 const vertexImageCache = new Map();
-const tintedVertexImageCache = new Map();
 const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 function emptyGraph(){ return {nodes:[], edges:[], directed:false, nextId:1, nextEid:1, source:null, sink:null, colorNames:[]}; }
@@ -423,6 +424,8 @@ function loadPreferences(){
   if(!/^#[0-9a-f]{6}$/i.test(preferences.backgroundColor))preferences.backgroundColor='#f4efe1';
   if(typeof preferences.backgroundImage!=='string')preferences.backgroundImage='';
   if(typeof preferences.defaultVertexImage!=='string')preferences.defaultVertexImage='';
+  preferences.hideLabels=preferences.hideLabels===true;
+  preferences.hideWeights=preferences.hideWeights===true;
   loadBackgroundImage();
   applyPreferences();
 }
@@ -474,27 +477,6 @@ function getVertexImage(filename){
   }
   return vertexImageCache.get(filename);
 }
-function getTintedVertexImage(filename,colorIndex){
-  const key=`${filename}:${colorIndex}`;
-  if(tintedVertexImageCache.has(key))return tintedVertexImageCache.get(key);
-  const source=getVertexImage(filename);
-  if(!source.complete||!source.naturalWidth)return source;
-  const canvas=document.createElement('canvas');
-  canvas.width=source.naturalWidth;canvas.height=source.naturalHeight;
-  const context=canvas.getContext('2d');
-  if(!context){console.error('Could not create canvas context to tint vertex image');return source;}
-  context.drawImage(source,0,0);
-  context.globalCompositeOperation='source-atop';
-  context.globalAlpha=0.4;
-  context.fillStyle=PALETTE[colorIndex%PALETTE.length];
-  context.fillRect(0,0,canvas.width,canvas.height);
-  const image=new Image();
-  image.onload=()=>draw();
-  image.onerror=()=>{console.error(`Could not tint vertex image ${filename}`);toast(`เปลี่ยนสีภาพจุดยอดไม่ได้: ${filename}`);};
-  image.src=canvas.toDataURL('image/png');
-  tintedVertexImageCache.set(key,image);
-  return image;
-}
 function decodeSharedGraph(){
   const match=location.hash.match(/(?:^#|&)graph=([A-Za-z0-9_-]+)/);
   if(!match)return null;
@@ -541,22 +523,25 @@ async function showSettings(){
     <label class="sel">ขนาดตัวอักษร<select id="prefFont"><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option></select></label>
     <label class="sel">รูปแบบชื่อจุดทั่วไป<select id="prefLabels"><option value="v">v1, v2, …</option><option value="letter">A, B, …</option><option value="number">1, 2, …</option></select></label>
     <label class="sel">ภาษาเมนู<select id="prefLanguage"><option value="th">ไทย</option><option value="en">English</option></select></label><label><input id="prefPatterns" type="checkbox"> แสดงลวดลาย/หมายเลขช่วยแยกสี</label>
+    <label><input id="prefHideLabels" type="checkbox"> ซ่อนป้ายชื่อจุด</label>
+    <label><input id="prefHideWeights" type="checkbox"> ซ่อนน้ำหนักเส้น</label>
     <p class="note">เปลี่ยนภาพของจุดที่มีอยู่: ปิดหน้าต่างนี้ เลือก “สี / รูปแบบ” จากแถบด้านบน แล้วแตะจุด PNG เดิมเป็นภาพ raster จึงไม่สามารถกลายเป็น vector โดยไม่ trace และอาจสูญเสียรายละเอียด; หากมีไฟล์ SVG อยู่แล้ว ให้วางใน vertex แล้วเลือกใช้เป็นภาพ vector ได้โดยตรง</p>`);
   $('#prefFont').value=String(preferences.fontSize);$('#prefNode').value=String(preferences.nodeSize);
   $('#prefLabels').value=preferences.labelStyle;$('#prefLanguage').value=preferences.language;
   $('#prefPatterns').checked=preferences.patterns;$('#prefDefaultVertex').value=preferences.defaultVertexImage;
+  $('#prefHideLabels').checked=preferences.hideLabels;$('#prefHideWeights').checked=preferences.hideWeights;
   if(preferences.backgroundImage){const preview=$('#backgroundPreview');preview.src=preferences.backgroundImage;preview.style.display='block';}
   const saveForm=()=>{
     const backgroundColor=$('#prefBackgroundColor').value;
     const colorChanged=backgroundColor!==preferences.backgroundColor;
-    const next={...preferences,fontSize:Number($('#prefFont').value),nodeSize:Number($('#prefNode').value),labelStyle:$('#prefLabels').value,language:$('#prefLanguage').value,patterns:$('#prefPatterns').checked,defaultVertexImage:$('#prefDefaultVertex').value,backgroundColor,backgroundImage:colorChanged?'':preferences.backgroundImage};
+    const next={...preferences,fontSize:Number($('#prefFont').value),nodeSize:Number($('#prefNode').value),labelStyle:$('#prefLabels').value,language:$('#prefLanguage').value,patterns:$('#prefPatterns').checked,hideLabels:$('#prefHideLabels').checked,hideWeights:$('#prefHideWeights').checked,defaultVertexImage:$('#prefDefaultVertex').value,backgroundColor,backgroundImage:colorChanged?'':preferences.backgroundImage};
     if(setUserPreferences(next)){
       if(colorChanged)$('#backgroundPreview').style.display='none';
       renderMainNavigation();
     }
   };
   $('#mbody').onchange=e=>{
-    if(['prefFont','prefNode','prefLabels','prefLanguage','prefPatterns','prefDefaultVertex','prefBackgroundColor'].includes(e.target.id))saveForm();
+    if(['prefFont','prefNode','prefLabels','prefLanguage','prefPatterns','prefHideLabels','prefHideWeights','prefDefaultVertex','prefBackgroundColor'].includes(e.target.id))saveForm();
     if(e.target.id==='prefBackgroundFile'){
       const file=e.target.files?.[0];if(!file)return;
       if(file.size>4*1024*1024){toast('ภาพพื้นหลังต้องมีขนาดไม่เกิน 4 MB');e.target.value='';return;}
@@ -587,25 +572,29 @@ const TAB_EN={analyze:'Analyze',dijkstra:'Dijkstra',bellmanford:'Bellman–Ford'
 function renderMainNavigation(){
   const english=preferences.language==='en';
   $('#editToolsLabel').textContent=english?'Graph editing':'แก้ไขกราฟ';
-  $('#otherToolsLabel').textContent=english?'Graph & tools':'กราฟและเครื่องมือ';
+  $('#otherToolsLabel').textContent=english?'Graph & learning':'กราฟและการเรียนรู้';
   $$('#tabs [data-tab]').forEach(button=>{const tab=TABS[button.dataset.tab];if(tab)button.textContent=`${tab.icon} ${english?(TAB_EN[button.dataset.tab]||tab.name):tab.name}`;});
+  const selectedTab=TABS[algo];
+  $('#currentAlgorithm').textContent=`${selectedTab.icon} ${english?(TAB_EN[algo]||selectedTab.name):selectedTab.name}`;
   const toolbarLabels=english
-    ?{move:'Move / Pan',node:'Add vertex',edge:'Add edge',edit:'Edit label / weight',style:'Color / style',bend:'Bend edge',del:'Delete'}
-    :{move:'ย้าย / เลื่อน',node:'เพิ่มจุด',edge:'เชื่อมเส้น',edit:'แก้ชื่อ / น้ำหนัก',style:'สี / รูปแบบ',bend:'ดัดเส้น',del:'ลบ'};
+    ?{move:'Move / Pan',node:'Add vertex',edge:'Add edge',edit:'Edit label / weight',style:'Color / style',bend:'Bend edge',reverse:'Reverse edge',del:'Delete'}
+    :{move:'ย้าย / เลื่อน',node:'เพิ่มจุด',edge:'เชื่อมเส้น',edit:'แก้ชื่อ / น้ำหนัก',style:'สี / รูปแบบ',bend:'ดัดเส้น',reverse:'กลับทิศเส้น',del:'ลบ'};
   Object.entries(toolbarLabels).forEach(([tool,label])=>{
     const button=$(`#toolbar [data-tool="${tool}"]`),icon=button?.querySelector('.ic');
     if(button&&icon)button.replaceChildren(icon,document.createTextNode(label));
   });
   const commandLabels=english
-    ?{aStraight:'Straighten edges',aPreset:'Algorithm examples',aPractice:'Random quiz',aCompare:'Compare algorithms',aClassics:'Classic lessons',aGlossary:'Glossary',aGenerate:'Generate graph',aLayout:'Auto layout',aPNG:'Export PNG',aClear:'Clear graph',aHelp:'Help',aExportSteps:'Export steps',aLibrary:'Graph library',aSettings:'Background / vertex settings'}
-    :{aStraight:'ทำเส้นตรง',aPreset:'ตัวอย่างอัลกอริทึม',aPractice:'สุ่มโจทย์ฝึก',aCompare:'เปรียบเทียบอัลกอริทึม',aClassics:'บทเรียนคลาสสิก',aGlossary:'อภิธานศัพท์',aGenerate:'สร้างกราฟ',aLayout:'จัดวางกราฟ',aPNG:'ส่งออก PNG',aClear:'ล้างกราฟ',aHelp:'วิธีใช้',aExportSteps:'ส่งออกขั้นตอน',aLibrary:'คลังกราฟ',aSettings:'ตั้งค่าพื้นหลัง / จุดยอด'};
+    ?{aStraight:'Straighten edges',aPreset:'Examples',aLearning:'Learning',aGenerate:'Generate graph',aLayout:'Auto layout',aPNG:'Export PNG',aClear:'Clear graph',aExportSteps:'Export steps',aLibrary:'Graph library',aSettings:'Background / vertex settings'}
+    :{aStraight:'ทำเส้นตรง',aPreset:'ตัวอย่าง',aLearning:'การเรียนรู้',aGenerate:'สร้างกราฟ',aLayout:'จัดวางกราฟ',aPNG:'ส่งออก PNG',aClear:'ล้างกราฟ',aExportSteps:'ส่งออกขั้นตอน',aLibrary:'คลังกราฟ',aSettings:'ตั้งค่าพื้นหลัง / จุดยอด'};
   Object.entries(commandLabels).forEach(([id,label])=>{
     const button=$(`#${id}`),icon=button?.querySelector('.ic');
     if(button&&icon)button.replaceChildren(icon,document.createTextNode(label));
   });
   $('#aLibrary').textContent=english?'🗃️ Graph library':'🗃️ คลังกราฟ';
-  $('#aSettings').textContent=english?'⚙️ Background / vertex settings':'⚙️ ตั้งค่าพื้นหลัง / จุดยอด';
-  $('#aHelp').textContent=english?'❓ Help':'❓ วิธีใช้';
+  $('#aSettings').textContent='⚙️';
+  $('#aSettings').title=english?'Background / vertex settings':'ตั้งค่าพื้นหลัง / จุดยอด';
+  $('#aHelp').textContent='❓';
+  $('#aHelp').title=english?'Help':'วิธีใช้';
   $('#dirTxt').textContent=english?(G.directed?'Directed':'Undirected'):(G.directed?'มีทิศ':'ไม่มีทิศ');
 }
 function showStepExport(){
@@ -781,6 +770,7 @@ const CURSOR_STYLES = {
   edge: 'crosshair',
   edit: 'text',
   bend: 'move',
+  reverse: 'crosshair',
   del: 'not-allowed',
   style: 'pointer'
 };
@@ -817,7 +807,7 @@ function renderScene(c, w, h, v, graph=G, stepOverride=undefined, comparisonPane
       for(let x=ox;x<w;x+=gs) for(let y=oy;y<h;y+=gs) c.fillRect(Math.round(x)-1, Math.round(y)-1, 3, 3);
     }
     c.save(); c.translate(v.x, v.y); c.scale(v.s, v.s);
-    const st = stepOverride === undefined ? currentStep() : stepOverride, showW = algo !== 'color';
+    const st = stepOverride === undefined ? currentStep() : stepOverride, showW = algo !== 'color' && !preferences.hideWeights;
     const curveMap=parallelEdgeCurves(G);
     for(const e of G.edges) drawEdge(c, e, st, showW, comparisonPanel, curveMap);
     const preview=graph===isoGraph ? {node:isoSelNode,point:isoEdgePreview} : {node:selNode,point:edgePreview};
@@ -919,7 +909,7 @@ function drawEdge(c, e, st, showW, comparisonPanel=false, curveMap=null){
     c.lineTo(tip.x-ux*sz+uy*sz*0.55, tip.y-uy*sz-ux*sz*0.55); c.closePath();
     c.fillStyle = edgeColor; c.fill(); c.lineWidth = 2; c.strokeStyle = INK; c.stroke();
   }
-  const txt = st && st.etext ? st.etext[e.id] : (showW ? fmt(e.w) : null);
+  const txt = preferences.hideWeights ? null : (st && st.etext ? st.etext[e.id] : (showW ? fmt(e.w) : null));
   if(txt != null) pill(c, g.px, g.py, txt, '#ffffff', INK, S.hl ? S.c : INK);
   if(key==='consider'&&phase>0){
     const spark=bez(g,0.12+0.76*phase);
@@ -1005,12 +995,7 @@ function drawNode(c, n, st, comparisonPanel=false){
     ?(st.fill[n.id] == null ? null : st.fill[n.id])
     :n.color;
   const sourceVertexImage=n.vertexImage?getVertexImage(n.vertexImage):null;
-  const tintedVertexImage=sourceVertexImage&&vertexColorIndex!=null
-    ?getTintedVertexImage(n.vertexImage,vertexColorIndex)
-    :sourceVertexImage;
-  const vertexImage=tintedVertexImage&&tintedVertexImage.complete&&tintedVertexImage.naturalWidth
-    ?tintedVertexImage
-    :sourceVertexImage;
+  const vertexImage=sourceVertexImage;
   if(vertexImage&&vertexImage.complete&&vertexImage.naturalWidth){
     const size=2*r+12;
     c.save();
@@ -1028,7 +1013,7 @@ function drawNode(c, n, st, comparisonPanel=false){
     ? String.fromCharCode(65+(n.id-1)%26)+(n.id>26?Math.floor((n.id-1)/26):'')
     : preferences.labelStyle==='number'&&/^v\d+$/.test(n.label)?String(n.id):n.label;
   const short = label.length <= 4, numericLabel = /^\d+$/.test(label);
-  if(!vertexImage){
+  if(!preferences.hideLabels&&!vertexImage){
     c.fillStyle = textOn(fill); c.font = `bold ${numericLabel?16:(short?14:12)}px ${numericLabel?"Arial,Tahoma,sans-serif":FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
     c.fillText(label, n.x, n.y+1);
   }
@@ -1037,11 +1022,14 @@ function drawNode(c, n, st, comparisonPanel=false){
     c.beginPath();c.arc(n.x+r-1,n.y-r+1,7,0,Math.PI*2);c.fillStyle=INK;c.fill();
     c.fillStyle='#fff';c.font='bold 9px Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(marker,n.x+r-1,n.y-r+1);
   }
-  if(!short||vertexImage) pill(c, n.x, n.y+r+22, n.label, '#fffbe6', INK, INK);
+  if(!preferences.hideLabels&&(!short||vertexImage)){
+    const labelBackground=vertexImage&&vertexColorIndex!=null?PALETTE[vertexColorIndex%PALETTE.length]:'#fffbe6';
+    pill(c,n.x,n.y+r+22,n.label,labelBackground,textOn(labelBackground),INK);
+  }
   const T = TABS[algo];
   if(T && T.s && G.source === n.id) tag(c, n.x-r, n.y+r, 'S', '#38b764');
   if(T && T.t && G.sink === n.id) tag(c, n.x+r, n.y+r, 'T', '#b13e53');
-  if(st && st.ntext && st.ntext[n.id] != null) pill(c, n.x, n.y-r-17, st.ntext[n.id], '#ffcd75', INK, INK);
+  if(!preferences.hideLabels&&st && st.ntext && st.ntext[n.id] != null) pill(c, n.x, n.y-r-17, st.ntext[n.id], '#ffcd75', INK, INK);
   if(pulse>0.12){
     const sparkle=2+Math.round(pulse*2);
     c.globalAlpha=0.45+0.45*pulse;c.fillStyle='#ffcd75';
@@ -1220,6 +1208,13 @@ function handleTap(d){
     case 'style':
       if(n) showVertexPicker(n.id,activeSide);
       else if(ed) showEdgeColors(ed);
+      break;
+    case 'reverse':
+      if(!ed)break;
+      if(!G.directed){toast('กลับทิศเส้นได้เฉพาะกราฟมีทิศทาง — กดปุ่ม → ก่อน');break;}
+      if(ed.u===ed.v){toast('เส้นวนกลับจุดเดิม ไม่มีทิศทางให้สลับ');break;}
+      commit(()=>{[ed.u,ed.v]=[ed.v,ed.u];});
+      toast('กลับทิศทางเส้นแล้ว');
       break;
     case 'bend': if(ed && ed.curve){ commit(() => { ed.curve = 0; }, false); toast('📏 ทำให้เส้นตรงแล้ว'); } break;
   }
@@ -1890,7 +1885,6 @@ function updatePlayer(){
   $('#stepLbl').textContent = n ? `ขั้น ${stepIdx+1}/${n}` : 'ขั้น 0/0';
   $('#stepText').textContent = run ? run.steps[stepIdx].msg : defaultStepText();
   $('#sumBtn').classList.toggle('glow', !!run && stepIdx === n-1);
-  $('#predictStep').disabled=!run||stepIdx>=run.steps.length-1;
 }
 function defaultStepText(){
   const T = TABS[algo];
@@ -1957,6 +1951,10 @@ function setTab(key){
   }
   clearRun();
   $$('#tabs .btn').forEach(b => b.classList.toggle('on', b.dataset.tab === algo));
+  $('#tabs').hidden=true;
+  $('#toggleTabs').textContent='▼';
+  $('#toggleTabs').setAttribute('aria-expanded','false');
+  renderMainNavigation();
   $('#algoDesc').innerHTML = `<b>${T.icon} ${T.name}</b> — ${T.desc}` + (T.app ? `<span class="app">💡 การประยุกต์: ${T.app}</span>` : '');
   $('#lblS').style.display = T.s ? '' : 'none'; $('#lblT').style.display = T.t ? '' : 'none';
   $('#selRow').style.display = (T.s || T.t) ? '' : 'none';
@@ -1986,6 +1984,7 @@ const HINTS = {
   edge:'🔗 แตะจุดแรก แล้วแตะจุดที่สอง เพื่อสร้างเส้นและใส่น้ำหนัก',
   edit:'✏️ แตะจุดเพื่อตั้งชื่อ (เช่น คลังสินค้า) • แตะเส้นเพื่อเปลี่ยนน้ำหนัก',
   bend:'〰️ ลากที่เส้นเพื่อดัดให้โค้ง • แตะเส้นเพื่อทำให้ตรง',
+  reverse:'↔️ เลือกกราฟมีทิศทาง แล้วแตะเส้นที่ต้องการกลับทิศ (ย้อนได้ด้วย Undo)',
   del:'🗑️ แตะจุดหรือเส้นที่ต้องการลบ (กด Undo ได้)',
   style:'🎨 แตะจุดเพื่อเปลี่ยนสีหรือเลือกรูปแบบ PNG • แตะเส้นเพื่อเลือกสีหรือรูปแบบ (ถนน/ท่อ/สายไฟ)'
 };
@@ -1998,8 +1997,8 @@ function updateHint(){
     if(node)h=`🔗 เลือก "${node.label}" แล้ว → แตะจุดปลายทาง (แตะจุดเดิมเพื่อสร้าง self-loop, แตะที่ว่างเพื่อยกเลิก)`;
   }
   $('#hint').textContent = h;
-  const toolNames = {move:'ย้าย/เลื่อน',node:'เพิ่มจุด',edge:'เชื่อมเส้น',edit:'แก้ชื่อ/น้ำหนัก',style:'สี/รูปแบบจุดและเส้น',bend:'ดัดเส้น',del:'ลบ'};
-  $('#toolStatus').textContent = `โหมด: ${toolNames[tool] || tool} · ${(currentGraph||G).directed ? 'Directed' : 'Undirected'}${isoSplitView?` · แก้ไข: กราฟที่ ${useRight?'2':'1'}`:''} · Ctrl/⌘+Z Undo · 1–7 เปลี่ยนโหมด`;
+  const toolNames = {move:'ย้าย/เลื่อน',node:'เพิ่มจุด',edge:'เชื่อมเส้น',edit:'แก้ชื่อ/น้ำหนัก',style:'สี/รูปแบบจุดและเส้น',bend:'ดัดเส้น',reverse:'กลับทิศเส้น',del:'ลบ'};
+  $('#toolStatus').textContent = `โหมด: ${toolNames[tool] || tool} · ${(currentGraph||G).directed ? 'Directed' : 'Undirected'}${isoSplitView?` · แก้ไข: กราฟที่ ${useRight?'2':'1'}`:''} · Ctrl/⌘+Z Undo · 1–8 เปลี่ยนโหมด`;
 }
 
 /* ---------- presets ---------- */
@@ -2199,19 +2198,31 @@ function runQuickCommand(){
   commit(()=>storeEdge(u.id,v.id,w));input.value='';toast(`เพิ่มเส้น ${u.label} ${G.directed?'→':'–'} ${v.label} = ${fmt(w)}`);
 }
 function showPresets(){
-  const presets=Object.entries(PRESETS).map(([key,preset])=>`
-    <div class="pcard"><b>${preset.name}</b><span style="font-size:14px">${preset.desc}</span>
-      <span style="font-size:13px">อัลกอริทึม: <b>${TABS[preset.tab].name}</b></span>
-      <button type="button" class="btn primary" data-preset="${key}">เปิดตัวอย่างนี้</button></div>`).join('');
-  const algorithms=Object.entries(ALGORITHM_EXAMPLES).map(([key,presetKey])=>{
+  openModal('📂 ตัวอย่าง',`<p>เลือกหมวดตัวอย่างที่ต้องการ</p><div class="example-categories">
+    <button type="button" class="btn primary" data-example-category="algorithms">🧮 ตัวอย่างอัลกอริทึม</button>
+    <button type="button" class="btn primary" data-example-category="problems">🧩 ตัวอย่างโจทย์</button>
+  </div>`);
+}
+function renderExampleCategory(category){
+  if(category==='algorithms'){
+    const algorithms=Object.entries(ALGORITHM_EXAMPLES).map(([key,presetKey])=>{
     const preset=PRESETS[presetKey],tab=TABS[key];
     return `<div class="pcard"><b>${tab.icon} ${tab.name}</b><span style="font-size:14px">${preset.desc}<br><small>กดซ้ำเพื่อสุ่มรูปแบบและค่าน้ำหนักอีกครั้ง</small></span>
       <span style="font-size:13px">กราฟตัวอย่าง: <b>${preset.name}</b></span>
       <button type="button" class="btn primary" data-algorithm-example="${key}">เปิดตัวอย่างนี้</button></div>`;
-  }).join('');
-  openModal('📂 ตัวอย่างสาธิต', `<p>เลือกตัวอย่างเพื่อแทนที่กราฟปัจจุบัน (กด Undo เพื่อกลับได้)</p>
-    <h3>ตัวอย่างตามอัลกอริทึม</h3><div class="pgrid">${algorithms}</div>
-    <h3>ตัวอย่างโจทย์คลาสสิกและกราฟ</h3><div class="pgrid">${presets}</div>`);
+    }).join('');
+    return `<h3>ตัวอย่างอัลกอริทึม</h3><div class="pgrid">${algorithms}</div>`;
+  }
+  const presets=Object.entries(PRESETS).map(([key,preset])=>`
+    <div class="pcard"><b>${preset.name}</b><span style="font-size:14px">${preset.desc}</span>
+      <span style="font-size:13px">อัลกอริทึม: <b>${TABS[preset.tab].name}</b></span>
+      <button type="button" class="btn primary" data-preset="${key}">เปิดตัวอย่างนี้</button></div>`).join('');
+  return `<h3>ตัวอย่างโจทย์และกราฟ</h3><div class="pgrid">${presets}</div>`;
+}
+function showExampleCategory(category){
+  const title=category==='algorithms'?'ตัวอย่างอัลกอริทึม':'ตัวอย่างโจทย์';
+  $('#mtitle').textContent=`📂 ${title}`;
+  $('#mbody').innerHTML=`<button type="button" class="btn mini" data-example-back>◀ กลับไปเลือกหมวด</button><p>เลือกตัวอย่างเพื่อแทนที่กราฟปัจจุบัน (กด Undo เพื่อกลับได้)</p>${renderExampleCategory(category)}`;
 }
 function loadPreset(k){
   const p = PRESETS[k]; if(!p) return;
@@ -2264,37 +2275,6 @@ async function requestAlgorithm(algorithm, graph=G){
   if(!response.ok)throw new Error(result.error||`HTTP ${response.status}`);
   return result;
 }
-function showCompare(){
-  if(!G.nodes.length)return toast('สร้างหรือโหลดกราฟก่อนเปรียบเทียบ');
-  openModal('⚖️ เปรียบเทียบอัลกอริทึม',`<p>รันอัลกอริทึม 2 แบบบนกราฟปัจจุบัน แล้วเทียบจำนวนขั้นและผลลัพธ์</p>
-    <label class="sel">ชุดเปรียบเทียบ<select id="compareFamily">
-      <option value="shortest">Shortest Path: Dijkstra vs Bellman–Ford</option>
-      <option value="mst">Minimum Spanning Tree: Prim vs Kruskal</option>
-    </select></label><p><button type="button" class="btn primary" id="runCompare">⚖️ รันเปรียบเทียบ</button></p>
-    <div id="compareResult" aria-live="polite"></div>`);
-}
-async function runComparison(){
-  const family=$('#compareFamily').value;
-  const pair=family==='mst'?[['prim','Prim'],['kruskal','Kruskal']]:[['dijkstra','Dijkstra'],['bellmanford','Bellman–Ford']];
-  if(family==='mst'&&G.directed)return toast('เปรียบเทียบ Prim/Kruskal ต้องใช้กราฟไม่มีทิศ');
-  if(family==='shortest'&&G.edges.some(edge=>edge.w<0)){
-    $('#compareResult').innerHTML='<div class="hero warn">กราฟมีน้ำหนักติดลบ: Dijkstra ใช้ไม่ได้ ลองแก้น้ำหนักก่อนเพื่อเปรียบเทียบทั้งคู่</div>';return;
-  }
-  const output=$('#compareResult');output.textContent='กำลังคำนวณทั้งสองอัลกอริทึม…';
-  try{
-      const outcomes=await Promise.allSettled(pair.map(([id])=>requestAlgorithm(id)));
-      const cards=outcomes.map((outcome,index)=>{
-        if(outcome.status==='rejected')return `<article class="compare-card"><h3>${pair[index][1]}</h3><div class="hero warn">ใช้อัลกอริทึมนี้ไม่ได้กับกราฟปัจจุบัน: ${esc(outcome.reason.message)}</div></article>`;
-        const result=outcome.value;
-        const metric=family==='mst'?`น้ำหนักรวม: ${fmt(result.total)}`:
-          `ระยะถึงปลายทาง: ${result.distanceToSink??'ไม่ได้กำหนด'}`;
-        const final=result.steps[result.steps.length-1]?.msg||'—';
-        return `<article class="compare-card"><h3>${pair[index][1]}</h3><p><b>จำนวนขั้น:</b> ${result.steps.length}</p><p><b>${esc(metric)}</b></p><div class="note">${esc(final)}</div><details><summary>ดูผลลัพธ์</summary>${result.summary}</details></article>`;
-      }).join('');
-    output.innerHTML=`<div class="hero">เปรียบเทียบบนกราฟเดียวกัน (${G.nodes.length} จุด, ${G.edges.length} เส้น)</div><div class="compare-grid">${cards}</div>`;
-  }catch(error){console.error('Algorithm comparison failed:',error);output.innerHTML=`<div class="hero bad">${esc(error.message)}</div>`;}
-}
-
 let activeQuiz=null;
 async function showPractice(){
   const type=['mst','color','euler'][Math.floor(Math.random()*3)];
@@ -2330,6 +2310,26 @@ async function showPractice(){
     $('#practicePanel').classList.add('open');
   }catch(error){console.error('Practice question failed:',error);toast(`สร้างโจทย์ไม่ได้: ${error.message}`);}
 }
+function showLearning(section='practice'){
+  openModal('📚 การเรียนรู้',`<nav class="learning-tabs" aria-label="เนื้อหาการเรียนรู้">
+    <button type="button" class="btn" data-learning-tab="practice">🎯 แบบฝึกหัด</button>
+    <button type="button" class="btn" data-learning-tab="lessons">📚 บทเรียน</button>
+    <button type="button" class="btn" data-learning-tab="glossary">📖 อภิธานศัพท์</button>
+  </nav><div id="learningContent"></div>`);
+  renderLearningSection(section);
+}
+function renderLearningSection(section){
+  $$('#mbody [data-learning-tab]').forEach(button=>button.classList.toggle('on',button.dataset.learningTab===section));
+  const content=$('#learningContent');
+  if(!content)return;
+  if(section==='practice'){
+    content.innerHTML=`<div class="hero">ฝึกคิดจากโจทย์กราฟแบบสุ่ม พร้อมตรวจคำตอบและรับคำใบ้</div><button type="button" class="btn primary" data-learning-start-practice>🎲 สุ่มโจทย์ใหม่</button>`;
+  }else if(section==='lessons'){
+    content.innerHTML=renderClassicsHTML();
+  }else{
+    content.innerHTML=renderGlossaryHTML();
+  }
+}
 function markChoice(button,correct){
   button.classList.remove('answer-wrong','answer-correct');
   button.classList.add(correct?'answer-correct':'answer-wrong');
@@ -2348,22 +2348,7 @@ function answerPractice(value){
     ?'<div class="hero">✔ ถูกต้อง! อธิบายเหตุผลของคำตอบได้ดีมาก</div><p>กด “เริ่มรัน” บนแผงอัลกอริทึมเพื่อดูวิธีทำทีละขั้น</p>'
     :'<div class="hero warn">ยังไม่ถูก ลองคิดจากโครงสร้างกราฟอีกครั้ง หรือขอคำใบ้</div>';
 }
-function predictNextStep(){
-  if(!run||stepIdx>=run.steps.length-1)return toast('ไม่มีขั้นถัดไปให้ทาย');
-  const correct=run.steps[stepIdx+1].msg;
-  const distractors=run.steps.map(step=>step.msg).filter((message,index)=>index!==stepIdx&&message!==correct);
-  const choices=[correct];
-  while(choices.length<4&&distractors.length){
-    const index=Math.floor(Math.random()*distractors.length),candidate=distractors.splice(index,1)[0];
-    if(!choices.includes(candidate))choices.push(candidate);
-  }
-  choices.sort(()=>Math.random()-.5);
-  activeQuiz={kind:'predict',answer:correct};
-  $('#practicePanel').innerHTML=`<b>🎯 ทายขั้นถัดไป</b><div class="hero">ตอนนี้อยู่ขั้น ${stepIdx+1}/${run.steps.length} ของ ${esc(TABS[run.key]?.name||run.key)}<br>คุณคิดว่าอัลกอริทึมจะทำอะไรต่อ?</div><div class="row">${choices.map((message,index)=>`<button type="button" class="btn quiz-choice" data-predict="${index}">${esc(message)}</button>`).join('')}</div><button type="button" class="btn mini" data-predict-hint>💡 คำใบ้</button><div id="predictFeedback" aria-live="polite"></div>`;
-  $('#practicePanel').classList.add('open');
-  $$('#practicePanel [data-predict]').forEach((button,index)=>button.dataset.predictValue=choices[index]);
-}
-function showClassics(){
+function renderClassicsHTML(){
   const cards=[
     ['koenigsberg','สะพานเคอนิกส์แบร์ก','4 พื้นที่ 7 สะพาน; degree เป็น 3,3,5,3 จึงมีจุดคี่ 4 จุดและไม่มี Euler Trail'],
     ['k33','Utility Problem: K₃,₃','บ้าน 3 หลังเชื่อมกับสาธารณูปโภค 3 แห่งครบทุกคู่; non-planar'],
@@ -2375,8 +2360,9 @@ function showClassics(){
     ['knight','Knight’s Tour','การเดินม้าครบทุกช่องหนึ่งครั้งคือ Hamiltonian path บนกราฟกระดานหมากรุก; ถ้ากลับจุดเริ่มได้คือ Hamiltonian cycle'],
     ['ramsey','Party Problem: R(3,3)=6','ในกลุ่ม 6 คน เลือกคนหนึ่ง แล้วจากอีก 5 คนมีอย่างน้อย 3 คนที่สัมพันธ์กับเขาแบบเดียวกัน. ในสามคนนั้น หากมีคู่ที่สัมพันธ์แบบเดียวกันจะได้สามเหลี่ยมสีเดียวกับคนแรก; มิฉะนั้นสามคนนั้นเป็นสามเหลี่ยมสีตรงข้าม'],
   ];
-  openModal('📚 ปัญหาและตัวอย่างคลาสสิก',`<p>โหลดกราฟตัวอย่างเพื่อดูแอนิเมชัน หรือแตะบทเรียนเพื่ออ่านคำอธิบาย</p><h3>กราฟตัวอย่าง</h3>${cards.map(([id,title,desc])=>`<article class="classic-card"><b>${title}</b><p>${desc}</p><button type="button" class="btn mini primary" data-classic="${id}">โหลดกราฟและอัลกอริทึม</button>${id==='koenigsberg'?'<button type="button" class="btn mini" data-lesson="koenigsberg">อ่านประวัติและเหตุผล</button>':''}</article>`).join('')}<h3>แนวคิดสำคัญ</h3>${lessons.map(([id,title,desc])=>`<article class="classic-card"><button type="button" class="btn mini term-button" data-lesson="${id}">${title}</button><span>${desc}</span>${id==='knight'?'<p><button type="button" class="btn mini" data-open-knight>เปิดกระดาน Knight’s Tour 8×8</button></p>':''}</article>`).join('')}<p class="note">แผนที่ตัวอย่างเป็นแบบจำลองกราฟ K₄ เพื่อสาธิตการระบายสี ไม่ใช่ข้อมูลภูมิศาสตร์หรือเขตแดนจริงของประเทศไทย</p>`);
+  return `<p>แตะบทเรียนเพื่ออ่านคำอธิบาย หรือโหลดกราฟคลาสสิกเพื่อทดลองอัลกอริทึม</p><h3>ตัวอย่างปัญหาคลาสสิก</h3>${cards.map(([id,title,desc])=>`<article class="classic-card"><b>${title}</b><p>${desc}</p><button type="button" class="btn mini primary" data-classic="${id}">โหลดกราฟและอัลกอริทึม</button>${id==='koenigsberg'?'<button type="button" class="btn mini" data-lesson="koenigsberg">อ่านประวัติและเหตุผล</button>':''}</article>`).join('')}<h3>แนวคิดสำคัญ</h3>${lessons.map(([id,title,desc])=>`<article class="classic-card"><button type="button" class="btn mini term-button" data-lesson="${id}">${title}</button><span>${desc}</span>${id==='knight'?'<p><button type="button" class="btn mini" data-open-knight>เปิดกระดาน Knight’s Tour 8×8</button></p>':''}</article>`).join('')}<div id="lessonDefinition" class="note" aria-live="polite">เลือกหัวข้อเพื่ออ่านคำอธิบายเพิ่มเติม</div><p class="note">แผนที่ตัวอย่างเป็นแบบจำลองกราฟ K₄ เพื่อสาธิตการระบายสี ไม่ใช่ข้อมูลภูมิศาสตร์หรือเขตแดนจริงของประเทศไทย</p>`;
 }
+function showClassics(){showLearning('lessons');}
 let knightTour=[];
 function renderKnightBoard(){
   const squares=Array.from({length:64},(_,index)=>{
@@ -2406,9 +2392,10 @@ const GLOSSARY={
   'Flow / Capacity':'ปริมาณที่ไหลผ่านเส้น และขีดจำกัดสูงสุดของเส้นนั้น',
   'Negative Cycle':'วงจรที่ผลรวมน้ำหนักติดลบ ทำให้ไม่มีระยะทางสั้นที่สุดที่กำหนดได้'
 };
-function showGlossary(){
-  openModal('📖 อภิธานศัพท์ไทย–อังกฤษ',`<p>แตะคำศัพท์เพื่อเปิดนิยาม</p><div class="glossary-list">${Object.entries(GLOSSARY).map(([term])=>`<button type="button" class="btn mini term-button" data-term="${esc(term)}">${esc(term)}</button>`).join('')}</div><div id="termDefinition" class="note" aria-live="polite">เลือกคำศัพท์ด้านบน</div><h3>บทพิสูจน์สั้น</h3><div class="classic-card"><b>Handshaking Lemma</b><p>นับคู่ “จุดยอด–ปลายเส้น” สองวิธี: รวมดีกรีทุกจุดได้จำนวนปลายทั้งหมด และแต่ละเส้นมีปลาย 2 ด้าน จึงได้ Σdeg(v)=2|E|</p></div><div class="classic-card"><b>Euler Circuit (กราฟไม่มีทิศทาง)</b><p>กราฟเชื่อมต่อที่จุดมี degree คู่ทุกจุดมี Euler Circuit: เดินตามเส้นที่ยังไม่ใช้จนกลับจุดเริ่ม แล้วนำวงจรย่อยที่เหลือมาแทรกจนใช้ครบทุกเส้น (Hierholzer)</p></div><div class="classic-card"><b>Max-Flow Min-Cut</b><p>ทุก flow มีค่าไม่เกิน capacity ของ cut ใด ๆ; เมื่อไม่มี augmenting path ใน residual graph, จุดที่ยังเข้าถึงได้จาก source กำหนด cut ที่ capacity เท่ากับ flow จึงเป็นค่าสูงสุดและ cut ต่ำสุด</p></div>`);
+function renderGlossaryHTML(){
+  return `<p>แตะคำศัพท์เพื่อเปิดนิยาม</p><div class="glossary-list">${Object.entries(GLOSSARY).map(([term])=>`<button type="button" class="btn mini term-button" data-term="${esc(term)}">${esc(term)}</button>`).join('')}</div><div id="termDefinition" class="note" aria-live="polite">เลือกคำศัพท์ด้านบน</div><h3>บทพิสูจน์สั้น</h3><div class="classic-card"><b>Handshaking Lemma</b><p>นับคู่ “จุดยอด–ปลายเส้น” สองวิธี: รวมดีกรีทุกจุดได้จำนวนปลายทั้งหมด และแต่ละเส้นมีปลาย 2 ด้าน จึงได้ Σdeg(v)=2|E|</p></div><div class="classic-card"><b>Euler Circuit (กราฟไม่มีทิศทาง)</b><p>กราฟเชื่อมต่อที่จุดมี degree คู่ทุกจุดมี Euler Circuit: เดินตามเส้นที่ยังไม่ใช้จนกลับจุดเริ่ม แล้วนำวงจรย่อยที่เหลือมาแทรกจนใช้ครบทุกเส้น (Hierholzer)</p></div><div class="classic-card"><b>Max-Flow Min-Cut</b><p>ทุก flow มีค่าไม่เกิน capacity ของ cut ใด ๆ; เมื่อไม่มี augmenting path ใน residual graph, จุดที่ยังเข้าถึงได้จาก source กำหนด cut ที่ capacity เท่ากับ flow จึงเป็นค่าสูงสุดและ cut ต่ำสุด</p></div>`;
 }
+function showGlossary(){showLearning('glossary');}
 
 /* ---------- export PNG ---------- */
 function exportPNG(){
@@ -2438,7 +2425,7 @@ function showHelp(){
   <h3>เริ่มใน 3 ขั้น</h3>
   <ol class="steps">
     <li><b>สร้างกราฟ</b> — กด ⬛ เพิ่มจุด แล้วแตะพื้นที่ว่าง → กด 🔗 เชื่อมเส้น แล้วแตะ 2 จุด (หรือกด 📂 ตัวอย่าง)</li>
-    <li><b>เลือกอัลกอริทึม</b> ที่แท็บในแผงควบคุม (ด้านล่างบนมือถือ / ด้านขวาบนคอม) แล้วเลือกต้นทาง-ปลายทาง</li>
+    <li><b>เลือกอัลกอริทึม</b> ที่แผงด้านข้าง; กด ▼ เพื่อเปิดรายการเปลี่ยนอัลกอริทึม แล้วเลือกต้นทาง-ปลายทาง</li>
     <li><b>กด ▶ เริ่มรัน</b> แล้วดูทีละขั้นด้วย ⏮ ◀ ▶ ▶| ⏭ จากนั้นกด 📊 สรุปผล</li>
   </ol>
   <h3>เครื่องมือ</h3>
@@ -2448,15 +2435,16 @@ function showHelp(){
     <tr><td>🔗</td><td class="l">สร้างเส้น รวม self-loop, เส้นขนาน และน้ำหนักติดลบ</td></tr>
     <tr><td>✏️</td><td class="l">ตั้งชื่อจุด (เช่น คลังสินค้า) / แก้น้ำหนักเส้น</td></tr>
     <tr><td>〰️</td><td class="l">ดัดเส้นให้โค้ง / แตะเพื่อให้ตรง</td></tr>
+    <tr><td>↔️</td><td class="l">กลับทิศเส้นในกราฟมีทิศทาง (Undo ได้)</td></tr>
     <tr><td>🗑️</td><td class="l">ลบจุดหรือเส้น</td></tr>
     <tr><td>⇄</td><td class="l">สลับกราฟมีทิศ / ไม่มีทิศ</td></tr>
     <tr><td>⌖</td><td class="l">จัดกราฟให้อยู่กึ่งกลางจอ</td></tr>
   </table></div>
   <div class="note">🔁 โหมด Isomorphic Graphs: ใช้เครื่องมือชุดเดียวกันสร้าง/แก้กราฟได้ทั้งฝั่งซ้ายและขวา (เลือกฝั่งด้วยการแตะหรือลากบนกราฟ) แล้วกดเริ่มรันและเลือก “ใช้กราฟที่วาดไว้ทางขวา” เพื่อเปรียบเทียบ</div>
   <h3>ทางลัด</h3>
-  <p>Ctrl/⌘+Z = Undo • Ctrl/⌘+Y หรือ Ctrl/⌘+Shift+Z = Redo (ประมาณ 70 ขั้น) • 1–6 = เลือกโหมด • G = สร้างกราฟ • L = จัดวาง • F = จัดกึ่งกลาง • ← → = ย้อน/ถัดไป • Space = เล่น/หยุด • ล้อเมาส์หรือบีบ 2 นิ้ว = ซูม</p>
+  <p>Ctrl/⌘+Z = Undo • Ctrl/⌘+Y หรือ Ctrl/⌘+Shift+Z = Redo (ประมาณ 70 ขั้น) • 1–8 = เลือกเครื่องมือ • G = สร้างกราฟ • L = จัดวาง • F = จัดกึ่งกลาง • ← → = ย้อน/ถัดไป • Space = เล่น/หยุด • ล้อเมาส์หรือบีบ 2 นิ้ว = ซูม</p>
   <div class="note">🧩 สร้างกราฟ Kₙ, Cₙ, Pₙ, Star, Kₘ,ₙ, Grid, Qₙ, G(n,p), Random Tree, DAG และ Petersen • ตัวอย่างมี K₃,₃ และปัญหาสะพานทั้ง 7 ของเคอนิกส์แบร์ก • ค้นหาจุดยอดหรือพิมพ์คำสั่งเช่น v1-v2:-2</div>
-  <div class="note">📚 แถบด้านบนเป็นแถวเดียวแบบเลื่อนซ้าย–ขวา ไม่มีเมนูหมวดหมู่; เลือกอัลกอริทึมจากแถบในแผงด้านข้าง • เลือก “สี / รูปแบบ” แล้วแตะจุดเพื่อเปลี่ยนสีหรือเลือกรูป PNG/SVG โปร่งใส และแตะเส้นเพื่อเปลี่ยนสีหรือรูปแบบเส้น • ตั้งค่าสีหรือภาพพื้นหลังและภาพเริ่มต้นของจุดใหม่ได้จาก “ตั้งค่าพื้นหลัง / จุดยอด”</div>
+  <div class="note">📚 ปุ่ม “ตัวอย่าง” แยกตัวอย่างอัลกอริทึมและตัวอย่างโจทย์ • ปุ่ม “การเรียนรู้” รวมแบบฝึกหัดสุ่ม บทเรียน และอภิธานศัพท์ • เลือกอัลกอริทึมจากแผงด้านข้าง; กด ▼ เพื่อเปลี่ยน • เลือก “สี / รูปแบบ” แล้วแตะจุดเพื่อเปลี่ยนสีหรือเลือกรูป PNG/SVG โปร่งใส และแตะเส้นเพื่อเปลี่ยนสีหรือรูปแบบเส้น • ตั้งค่าสี/ภาพพื้นหลัง ภาพเริ่มต้นของจุดใหม่ และซ่อนป้ายชื่อจุดหรือน้ำหนักเส้นได้จาก “ตั้งค่าพื้นหลัง / จุดยอด”</div>
   <div class="note">💾 ระบบบันทึกอัตโนมัติในเบราว์เซอร์ (localStorage): จุด เส้น น้ำหนัก ทิศทาง ชื่อ สี/รูป PNG และ Source/Sink; ภาพ PNG ต้นฉบับเก็บใน vertex และแอปใช้ไฟล์ย่อสำหรับแสดงผล • ถ้ามี SVG จะใช้เป็น vector โดยตรง</div>
   <p><button type="button" class="btn primary" id="helpPreset">📂 เปิดตัวอย่างสาธิต</button></p>`);
 }
@@ -2470,6 +2458,12 @@ function init(){
   renderMainNavigation();
   loadVertexOptions().catch(error=>{console.error('Could not initialize vertex image choices:',error);toast(`โหลดภาพจุดยอดไม่ได้: ${error.message}`);});
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if(b) setTab(b.dataset.tab); });
+  $('#toggleTabs').addEventListener('click',()=>{
+    const expanded=$('#tabs').hidden;
+    $('#tabs').hidden=!expanded;
+    $('#toggleTabs').textContent=expanded?'▲':'▼';
+    $('#toggleTabs').setAttribute('aria-expanded',String(expanded));
+  });
   $('#toolbar').addEventListener('click', e => {
     const b = e.target.closest('[data-tool]');
     if(!b)return;
@@ -2492,10 +2486,7 @@ function init(){
   $('#aPreset').onclick = showPresets;
   $('#aLibrary').onclick = showGraphLibrary;
   $('#aSettings').onclick = showSettings;
-  $('#aPractice').onclick = showPractice;
-  $('#aCompare').onclick = showCompare;
-  $('#aClassics').onclick = showClassics;
-  $('#aGlossary').onclick = showGlossary;
+  $('#aLearning').onclick = ()=>showLearning();
   $('#aGenerate').onclick = showGenerator;
   $('#aLayout').onclick = showLayouts;
   $('#searchNode').onclick = () => withLastCanvasSide(searchNode);
@@ -2523,7 +2514,6 @@ function init(){
   $('#bPlay').onclick = play;
   $('#bNext').onclick = () => manual(() => go(stepIdx+1));
   $('#bLast').onclick = () => manual(() => go(run ? run.steps.length-1 : 0));
-  $('#predictStep').onclick = predictNextStep;
   $('#slider').oninput = e => manual(() => go(+e.target.value));
   $$('[data-sp]').forEach(b => b.onclick = () => { speed = +b.dataset.sp; $$('[data-sp]').forEach(x => x.classList.toggle('on', x === b)); if(playing) tick(); });
   $('#sumBtn').onclick = showSummary;
@@ -2536,20 +2526,15 @@ function init(){
   $('#practicePanel').addEventListener('click',e=>{
     const quiz=e.target.closest('[data-quiz-answer]');
     if(quiz)return answerPractice(quiz.dataset.quizAnswer);
-    const prediction=e.target.closest('[data-predict]');
-    if(prediction){
-      const correct=prediction.dataset.predictValue===activeQuiz?.answer;
-      markChoice(prediction,correct);
-      $('#predictFeedback').innerHTML=correct
-        ?'<div class="hero">✔ ถูกต้อง! กด ▶| เพื่อดูขั้นถัดไป</div>'
-        :'<div class="hero warn">ยังไม่ใช่ ลองอีกครั้ง หรือดูคำใบ้</div>';
-      return;
-    }
     if(e.target.closest('[data-quiz-hint]')&&activeQuiz)$('#quizFeedback').innerHTML=`<div class="note"><b>คำใบ้:</b> ${esc(activeQuiz.hint)}</div>`;
-    if(e.target.closest('[data-predict-hint]')&&activeQuiz)$('#predictFeedback').innerHTML=`<div class="note"><b>คำใบ้:</b> ขั้นถัดไปต่อเนื่องจากสถานะ/ตัวเลือกที่ไฮไลต์อยู่ในภาพ</div><button type="button" class="btn mini" data-reveal-prediction>แสดงเฉลย</button>`;
-    if(e.target.closest('[data-reveal-prediction]'))$('#predictFeedback').innerHTML=`<div class="note"><b>ขั้นถัดไป:</b> ${esc(activeQuiz?.answer||'')}</div>`;
   });
   $('#mbody').addEventListener('click', e => {
+    const learningTab=e.target.closest('[data-learning-tab]');
+    if(learningTab)return renderLearningSection(learningTab.dataset.learningTab);
+    if(e.target.closest('[data-learning-start-practice]')){closeModal();return showPractice();}
+    const exampleCategory=e.target.closest('[data-example-category]');
+    if(exampleCategory)return showExampleCategory(exampleCategory.dataset.exampleCategory);
+    if(e.target.closest('[data-example-back]'))return showPresets();
     const vertexChoice=e.target.closest('[data-vertex-choice]');
     if(vertexChoice){
       const nodeId=Number($('#mbody').dataset.vertexNode),side=$('#mbody').dataset.vertexSide||'left';
@@ -2615,27 +2600,10 @@ function init(){
       if(knightTour.length<64)knightTour.push(square);
       $('#mbody').innerHTML=renderKnightBoard();return;
     }
-    const compare=e.target.closest('#runCompare');if(compare)return runComparison();
     const quizAnswer=e.target.closest('[data-quiz-answer]');
     if(quizAnswer)return answerPractice(quizAnswer.dataset.quizAnswer);
     if(e.target.closest('[data-quiz-hint]')){
       if(activeQuiz)$('#quizFeedback').innerHTML=`<div class="note"><b>คำใบ้:</b> ${esc(activeQuiz.hint)}</div>`;
-      return;
-    }
-    const prediction=e.target.closest('[data-predict]');
-    if(prediction){
-      const correct=prediction.dataset.predictValue===activeQuiz?.answer;
-      $('#predictFeedback').innerHTML=correct
-        ?'<div class="hero">✔ ถูกต้อง! กด ▶| เพื่อดูขั้นถัดไป</div>'
-        :`<div class="hero warn">ยังไม่ใช่ ลองอีกครั้ง หรือดูคำใบ้</div>`;
-      return;
-    }
-    if(e.target.closest('[data-predict-hint]')){
-      if(activeQuiz)$('#predictFeedback').innerHTML=`<div class="note"><b>คำใบ้:</b> ขั้นถัดไปคือการกระทำที่ต่อเนื่องจากสถานะ/ตัวเลือกที่ไฮไลต์อยู่ในภาพ</div><button type="button" class="btn mini" data-reveal-prediction>แสดงเฉลย</button>`;
-      return;
-    }
-    if(e.target.closest('[data-reveal-prediction]')){
-      $('#predictFeedback').innerHTML=`<div class="note"><b>ขั้นถัดไป:</b> ${esc(activeQuiz?.answer||'')}</div>`;
       return;
     }
     const term=e.target.closest('[data-term]');
@@ -2648,7 +2616,9 @@ function init(){
         ramsey:'ในกลุ่ม 6 คน เลือกคนหนึ่ง แล้วจากอีก 5 คนมีอย่างน้อย 3 คนที่สัมพันธ์กับเขาแบบเดียวกัน. ในสามคนนั้น หากมีคู่ที่สัมพันธ์แบบเดียวกันจะได้สามเหลี่ยมสีเดียวกับคนแรก; มิฉะนั้นสามคนนั้นเป็นสามเหลี่ยมสีตรงข้าม',
         koenigsberg:'ปัญหาสะพานทั้ง 7 แห่งถูก Euler ศึกษาในปี 1736 โดยแทนพื้นที่เป็นจุดยอดและสะพานเป็นเส้นเชื่อม ดีกรีทั้งสี่คือ 3, 3, 5, 3 รวม 14 = 2×7 แต่มีจุด degree คี่ 4 จุด ขณะที่ Euler Path ต้องมีจุดคี่ 0 หรือ 2 จุด จึงเดินผ่านสะพานครบหนึ่งครั้งไม่ได้ งานชิ้นนี้เป็นจุดเริ่มต้นสำคัญของทฤษฎีกราฟ'
       };
-      openModal(lesson.textContent,`<div class="hero">${esc(lessonDetails[lesson.dataset.lesson])}</div>`);
+      const lessonDefinition=$('#lessonDefinition');
+      if(lessonDefinition)lessonDefinition.innerHTML=`<b>${esc(lesson.textContent)}</b><br>${esc(lessonDetails[lesson.dataset.lesson])}`;
+      else openModal(lesson.textContent,`<div class="hero">${esc(lessonDetails[lesson.dataset.lesson])}</div>`);
       return;
     }
     if(e.target.closest('#buildDegreeSequence')) return runDegreeSequenceFromInput();
@@ -2702,8 +2672,8 @@ function init(){
     else if(e.key.toLowerCase() === 'g') showGenerator();
     else if(e.key.toLowerCase() === 'l') showLayouts();
     else if(e.key.toLowerCase() === 'f') fitView();
-    else if(/^[1-7]$/.test(e.key)){
-      const tools=['move','node','edge','edit','style','bend','del'], key=tools[Number(e.key)-1];
+    else if(/^[1-8]$/.test(e.key)){
+      const tools=['move','node','edge','edit','style','bend','reverse','del'], key=tools[Number(e.key)-1];
       const button=$(`[data-tool="${key}"]`);
       if(button){tool=key;selNode=null;edgePreview=null;$$('[data-tool]').forEach(x=>x.classList.toggle('on',x===button));updateCanvasCursor();updateHint();draw();}
     }

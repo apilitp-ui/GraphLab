@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "graph-theory-lab-shell-v4";
+const CACHE_NAME = "graph-theory-lab-shell-v6";
 const SHELL_URLS = ["/", "/manifest.webmanifest"];
 
 self.addEventListener("install", event => {
