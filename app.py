@@ -31,7 +31,7 @@ HTML = r"""<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1c2c">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -57,29 +57,36 @@ header::before{content:"";position:absolute;z-index:-1;inset:0;height:46px;backg
 .logo::before{content:"";position:absolute;inset:-4px;border:1px solid #63c74d;border-radius:8px;pointer-events:none}
 .logo-cat{position:absolute;left:-6px;top:-9px;width:30px;height:30px;display:grid;place-items:center;font:20px/1 'Mitr','Tahoma',sans-serif;filter:drop-shadow(2px 2px 0 #000);z-index:2}
 .sub{color:#241b20;background:#ffcd75;border:2px solid #281b1b;border-radius:3px;padding:0 6px;font-size:12px;font-weight:500;box-shadow:2px 3px 0 #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabbar{position:relative;z-index:1;display:flex;flex-wrap:nowrap;align-items:center;gap:6px;height:48px;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:4px 9px;background:#604025;border-top:3px solid #b17836;touch-action:pan-x}
-.tabbar::-webkit-scrollbar{display:none}
-.tabbar .btn{min-height:34px;min-width:0;font-size:12px;padding:3px 8px}
+.tabbar{position:relative;z-index:1;display:flex;flex-wrap:nowrap;align-items:center;gap:6px;height:56px;min-width:0;overflow-x:auto;overflow-y:hidden;padding:4px 9px;background:#604025;border-top:3px solid #b17836;touch-action:pan-x}
+.tabbar .btn{min-height:44px;min-width:0;font-size:12px;padding:3px 8px}
 .tabbar .tbtn{flex-direction:row;gap:4px}
 .tabbar .tbtn .ic{font-size:15px}
-.toolbar-section{flex:0 0 auto;color:#ffcd75;font-size:11px;font-weight:600;white-space:nowrap;padding:0 3px}
 .toolbar-divider{flex:0 0 1px;height:24px;background:#d3a45c;margin:0 3px}
+.toolbar-section{display:none}
+.systembar{display:flex;align-items:center;gap:6px;min-width:0;overflow-x:auto;padding:5px 9px;background:#604025;border-top:3px solid #b17836}
+.systembar .btn{min-height:40px;font-size:12px;padding:3px 8px}
+.systembar .tbtn{flex-direction:row;gap:4px}
+.systembar .tbtn .ic{font-size:15px}
+.system-divider{height:28px;flex:0 0 1px;background:#d3a45c;margin:0 3px}
+#systemSearch{display:flex;align-items:center;gap:4px;min-width:120px;max-width:220px;flex:1}
+#systemSearch input{min-width:0;width:100%;height:38px;border:2px solid var(--ink);font:13px var(--font);padding:4px 7px}
+#aDir{width:auto;min-width:145px;margin:0}
 .btn{font-family:var(--font);font-size:15px;min-height:44px;min-width:44px;padding:6px 12px;background:#f4dfb5;color:var(--ink);
-  border:3px solid #30201b;box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),4px 4px 0 #000;
+  border:3px solid #30201b;box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),2px 2px 0 #000;
   cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:5px;text-decoration:none;
   flex:0 0 auto;transition:transform .08s steps(2,end),box-shadow .08s steps(2,end)}
 .btn{font-size:calc(15px * var(--font-scale,1))}
-.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),5px 5px 0 #000}
+.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),3px 3px 0 #000}
 .btn:active:not(:disabled){transform:translate(4px,4px);box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),0 0 0 #000}
 .btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .btn:disabled{opacity:.55;cursor:not-allowed}
-.btn.on{background:var(--yellow)}
-.btn.primary{background:var(--green)}
+.btn.on{background:var(--yellow);box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),4px 4px 0 #000}
+.btn.primary{background:var(--green);box-shadow:inset 2px 2px 0 rgba(255,255,255,.72),inset -2px -2px 0 rgba(111,75,43,.26),4px 4px 0 #000}
 .btn.danger{background:var(--orange)}
 .btn.mini{min-height:34px;font-size:13px;padding:2px 8px}
 .tbtn{flex-direction:column;gap:0;font-size:calc(12px * var(--font-scale,1));min-width:66px;padding:3px 8px;line-height:1.2}
 .tbtn .ic{font-size:20px;line-height:1.15}
-#hint{background:var(--yellow);border-bottom:3px solid var(--ink);padding:6px 12px;font-size:14px;line-height:1.35;flex:0 0 auto}
+#hint{background:#e8f4ff;border-bottom:2px solid #9ab7c9;padding:6px 12px;font-size:14px;line-height:1.35;flex:0 0 auto}
 #toolStatus{background:#fff9e8;border-bottom:2px solid #6b4727;padding:3px 12px;font-size:12px;line-height:1.3;flex:0 0 auto}
 #quickTools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin:8px 0}
 #quickTools input{min-width:0;width:100%;font:13px var(--font);padding:6px;border:2px solid var(--ink);background:#fff}
@@ -90,6 +97,7 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 #isoRightPane{display:none;position:absolute;left:50%;top:0;right:0;bottom:0;border-left:3px solid #6b4727;background:var(--paper)}
 #stage.isomorphism-mode #cv{width:50%}
 #stage.isomorphism-mode #isoRightPane{display:block}
+#stage.isomorphism-mode #cv{height:100%}
 #isoCv{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto;touch-action:none;cursor:crosshair}
 .iso-pane-title.left{display:none}
 #stage.isomorphism-mode .iso-pane-title.left{display:block}
@@ -105,22 +113,72 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 #zoom{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px}
 #zoom .btn{font-size:20px;padding:0;width:46px}
 #dock{flex:0 0 auto;max-height:48vh;overflow-y:auto;background:#e8e4d8;border-top:4px solid #6b4727;padding:4px 10px 10px;-webkit-overflow-scrolling:touch}
+#dock.tabs-open{position:relative;z-index:25;overflow:visible}
+.dock-pinned{min-width:0}
+.dock-scroll{min-width:0}
+.dock-pinned>#algoDesc{margin:7px 0}
+.info-accordion{margin:7px 0}
+.info-accordion>summary{cursor:pointer;list-style:none;background:#fff9e8;border:2px solid #6b4727;padding:5px 9px;font-size:13px;font-weight:600}
+.info-accordion>summary::-webkit-details-marker{display:none}
+.info-accordion>summary::before{content:"▸ ";color:#3b5dc9}
+.info-accordion[open]>summary::before{content:"▾ ";color:#3b5dc9}
+.info-accordion>.desc{margin-top:5px}
+#stepText{margin:6px 0}
 @media (min-width:900px){
-  main{flex-direction:row}
-  #dock{width:390px;max-height:none;border-top:none;border-left:4px solid #6b4727}
+  main{flex-direction:column}
+  #dock{width:100%;max-height:48vh;border-top:4px solid #6b4727;border-left:none}
   .scroll{padding:4px 10px 6px}
-  .tbtn{min-height:36px;font-size:11px}
+  .tbtn{min-height:44px;font-size:12.5px}
   .tbtn .ic{font-size:16px}
   .logo{font-size:15px;letter-spacing:.5px;padding:1px 7px 1px 27px;border-width:2px;box-shadow:0 0 0 2px #8e5a27,2px 3px 0 #000,inset 0 2px 0 #ffd783}
   .logo-cat{left:-5px;top:-7px;width:25px;height:25px;font-size:17px}
   .sub{font-size:10px}
 }
-.dockhead{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding-top:6px}
+@media (min-width:1100px){
+  header{padding-top:46px}
+  .systembar{height:54px;overflow:visible}
+  .systembar .tbtn{font-size:12px}
+  main{display:grid;grid-template-columns:78px minmax(0,1fr) clamp(360px,28vw,440px);grid-template-rows:minmax(0,1fr);flex-direction:initial;min-height:0}
+  #toolbar{grid-column:1;grid-row:1;z-index:5;width:78px;height:100%;min-height:0;gap:2px;flex-direction:column;flex-wrap:nowrap;align-items:stretch;overflow-x:hidden;overflow-y:auto;touch-action:pan-y;padding:8px 5px;background:#604025;border-top:0;border-right:3px solid #b17836}
+  #toolbar .toolbar-section{display:block;color:#ffcd75;font-size:10px;line-height:1.15;text-align:center;white-space:normal;padding:2px 0}
+  #toolbar .toolbar-divider{width:42px;height:1px;min-height:1px;margin:3px auto;background:#d3a45c}
+  #toolbar .tbtn{position:relative;display:flex;flex:0 0 auto;flex-direction:column;width:64px;min-width:0;min-height:44px;gap:1px;padding:2px;font-size:10px;line-height:1.15;white-space:normal;text-align:center}
+  #toolbar .tbtn .ic{font-size:17px}
+  #toolbar .tbtn[data-key]::after{content:attr(data-key);position:absolute;right:2px;top:1px;min-width:14px;height:14px;padding:0 2px;background:#fff;color:#1a1c2c;border:1px solid #1a1c2c;border-radius:3px;font:700 9px/12px var(--font)}
+  #toolbar #aLayout,#toolbar #aStraight,#toolbar #aClear{width:64px;min-height:38px;font-size:10px}
+  #toolbar #aClear{background:#ef7d57}
+  #stage{grid-column:2;grid-row:1;min-width:0;min-height:0}
+  #dock{grid-column:3;grid-row:1;width:auto;height:100%;max-height:none;min-height:0;display:flex;flex-direction:column;overflow:hidden;border-top:0;border-left:4px solid #6b4727;padding:6px 10px 10px}
+  .dock-pinned{flex:0 0 auto;max-width:100%}
+  .dock-scroll{flex:1 1 auto;overflow-y:auto;min-height:0;padding-right:4px}
+  .dock-scroll{display:flex;flex-direction:column}
+  .dockhead{position:relative}
+  .tabgrid{width:min(520px,calc(100vw - 110px));right:0}
+  #dock .player .row{margin:5px 0}
+  #dock .player .btn{min-width:38px}
+  #dock .player .speed .btn{min-height:34px;font-size:12px}
+  #dock #stepText{flex:1 0 auto;min-height:96px}
+  .info-accordion{margin:8px 0}
+  .tabbar .tbtn{font-size:12px}
+  #toast{bottom:16px}
+}
+@media (max-width:600px) and (orientation:portrait){
+  #stage.isomorphism-mode #cv{width:100%;height:50%}
+  #stage.isomorphism-mode #isoRightPane{left:0;top:50%;right:0;bottom:0;border-left:0;border-top:3px solid #6b4727}
+  #stage.isomorphism-mode #zoom{right:10px;bottom:calc(50% + 10px)}
+}
+@media (max-width:600px){
+  #dock{max-height:42vh}
+}
+.dockhead{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding-top:6px}
 .selected-algorithm{justify-content:flex-start;text-align:left;white-space:normal;min-width:0}
 .tab-toggle{font-size:19px;padding:0 10px}
-.tabgrid{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;padding:2px 4px 8px 0}
+.tabgrid{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px;position:absolute;z-index:20;top:calc(100% + 5px);right:0;width:min(520px,calc(100vw - 24px));max-height:min(68vh,620px);overflow:auto;background:#f4efe1;border:3px solid #30201b;box-shadow:5px 5px 0 #000}
 .tabgrid[hidden]{display:none}
-.btn.tab{font-size:14px;min-width:0;width:100%;padding:6px 6px;white-space:normal;line-height:1.2;text-align:center}
+.tab-group{min-width:0}
+.tab-group-title{font-size:12px;font-weight:700;color:#fff;background:#333c57;padding:4px 7px;margin:0 0 5px;border-left:4px solid #ef7d57}
+.tab-group-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.btn.tab{font-size:12px;min-width:0;width:100%;min-height:40px;padding:4px 5px;white-space:normal;line-height:1.2;text-align:center}
 .learning-tabs,.example-categories{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
 .learning-tabs .btn,.example-categories .btn{flex:1}
 
@@ -203,45 +261,51 @@ input[type=range]{flex:1;accent-color:var(--red);height:34px;min-width:120px}
 .vertex-option img{width:54px;height:54px;object-fit:contain}
 .background-preview{width:100%;height:92px;object-fit:cover;border:2px solid var(--ink);background:#fff}
 ol.steps li{margin-bottom:6px}
-#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 120px);transform:translateX(-50%);background:var(--ink);color:#fff;
-  padding:8px 14px;border:3px solid #fff;box-shadow:4px 4px 0 #000;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center;font-size:14px}
+#toast{position:fixed;left:50%;top:auto;bottom:calc(env(safe-area-inset-bottom) + 48vh + 12px);transform:translateX(-50%);background:var(--ink);color:#fff;
+  padding:8px 14px;border:3px solid #fff;box-shadow:2px 2px 0 #000;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center;font-size:14px}
+@media (min-width:900px){
+  .tabbar .tbtn{font-size:12.5px}
+  #toast{bottom:16px}
+}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
     <div class="titlebar"><span class="logo"><span class="logo-cat" aria-hidden="true">🐱</span>GRAPH LAB</span><span class="sub">Logistics &amp; Urban Planning</span></div>
-    <nav class="tabbar" id="toolbar" aria-label="ฟังก์ชัน">
-      <span class="toolbar-section" id="editToolsLabel">แก้ไขกราฟ</span>
-      <button type="button" class="btn tbtn on" data-tool="move" title="ย้าย / เลื่อน"><span class="ic">✋</span>ย้าย / เลื่อน</button>
-      <button type="button" class="btn tbtn" data-tool="node" title="เพิ่มจุด"><span class="ic">⬛</span>เพิ่มจุด</button>
-      <button type="button" class="btn tbtn" data-tool="edge" title="เชื่อมเส้น"><span class="ic">🔗</span>เชื่อมเส้น</button>
-      <button type="button" class="btn tbtn" data-tool="edit" title="แก้ชื่อ / น้ำหนัก"><span class="ic">✏️</span>แก้ชื่อ / น้ำหนัก</button>
-      <button type="button" class="btn tbtn" data-tool="style" title="สี / รูปแบบจุดและเส้น"><span class="ic">🎨</span>สี / รูปแบบ</button>
-      <button type="button" class="btn tbtn" data-tool="bend" title="ดัดเส้น"><span class="ic">〰️</span>ดัดเส้น</button>
-      <button type="button" class="btn tbtn" data-tool="reverse" title="กลับทิศทางเส้น"><span class="ic">↔️</span>กลับทิศเส้น</button>
-      <button type="button" class="btn tbtn" data-tool="del" title="ลบ"><span class="ic">🗑️</span>ลบ</button>
-      <span class="toolbar-divider" role="separator"></span>
-      <span class="toolbar-section" id="otherToolsLabel">กราฟและเครื่องมือ</span>
-      <button type="button" class="btn tbtn" id="aDir" title="สลับทิศทาง"><span class="ic" id="dirIc">—</span><span id="dirTxt">ไม่มีทิศ</span></button>
-      <button type="button" class="btn tbtn" id="aUndo" title="Undo"><span class="ic">↶</span>Undo</button>
-      <button type="button" class="btn tbtn" id="aRedo" title="Redo" disabled><span class="ic">↷</span>Redo</button>
-      <button type="button" class="btn tbtn" id="aStraight" title="ทำเส้นตรง"><span class="ic">📏</span>ทำเส้นตรง</button>
-      <button type="button" class="btn tbtn" id="aClear" title="ล้างกราฟ"><span class="ic">🧹</span>ล้างกราฟ</button>
-      <button type="button" class="btn tbtn" id="aPreset" title="ตัวอย่าง"><span class="ic">📂</span>ตัวอย่าง</button>
+    <nav class="systembar" id="systembar" aria-label="ไฟล์และระบบ">
+      <button type="button" class="btn tbtn" id="aCreate" title="การสร้าง (G)"><span class="ic">🧩</span><span id="createMenuLabel">การสร้าง</span></button>
+      <button type="button" class="btn tbtn" id="aSave" title="การบันทึก"><span class="ic">💾</span><span id="saveMenuLabel">การบันทึก</span></button>
       <button type="button" class="btn tbtn" id="aLearning" title="การเรียนรู้"><span class="ic">📚</span>การเรียนรู้</button>
-      <button type="button" class="btn tbtn" id="aGenerate" title="สร้างกราฟ"><span class="ic">🧩</span>สร้างกราฟ</button>
-      <button type="button" class="btn tbtn" id="aLayout" title="จัดวางกราฟ"><span class="ic">🪄</span>จัดวางกราฟ</button>
-      <button type="button" class="btn tbtn" id="aPNG" title="ส่งออก PNG"><span class="ic">🖼️</span>ส่งออก PNG</button>
-      <button type="button" class="btn tbtn" id="aExportSteps" title="ส่งออกขั้นตอน"><span class="ic">📄</span>ส่งออกขั้นตอน</button>
-      <button type="button" class="btn tbtn" id="aLibrary" title="คลังกราฟ"><span class="ic">🗃️</span>คลังกราฟ</button>
+      <span class="system-divider" role="separator"></span>
+      <button type="button" class="btn tbtn" id="aUndo" title="Undo (Ctrl+Z)"><span class="ic">↶</span>Undo</button>
+      <button type="button" class="btn tbtn" id="aRedo" title="Redo (Ctrl+Y)" disabled><span class="ic">↷</span>Redo</button>
+      <span class="system-divider" role="separator"></span>
+      <select id="aDir" aria-label="ชนิดกราฟ" title="ชนิดกราฟ"><option value="undirected">ไม่มีทิศทาง</option><option value="directed">มีทิศทาง</option></select>
+      <label id="systemSearch"><input id="nodeSearch" type="search" placeholder="ค้นหาจุดยอด..." aria-label="ค้นหาจุดยอด"><button type="button" class="btn" id="searchNode" title="ค้นหาจุดยอด">🔎</button></label>
       <button type="button" class="btn tbtn" id="aSettings" title="ตั้งค่าพื้นหลัง / จุดยอด"><span class="ic">⚙️</span></button>
-      <button type="button" class="btn tbtn" id="aHelp" title="วิธีใช้" aria-label="วิธีใช้"><span class="ic">❓</span></button>
+      <button type="button" class="btn tbtn" id="aHelp" title="วิธีใช้และคีย์ลัด" aria-label="วิธีใช้"><span class="ic">❓</span></button>
     </nav>
   </header>
   <div id="hint"></div>
   <div id="toolStatus" role="status" aria-live="polite"></div>
   <main>
+    <nav class="tabbar" id="toolbar" aria-label="วาดและแก้ไขกราฟ">
+      <span class="toolbar-section">วาดและแก้ไข</span>
+      <button type="button" class="btn tbtn on" data-tool="move" data-key="1" title="ย้าย / เลื่อน (1)"><span class="ic">✋</span>ย้าย / เลื่อน</button>
+      <button type="button" class="btn tbtn" data-tool="node" data-key="2" title="เพิ่มจุด (2)"><span class="ic">⬛</span>เพิ่มจุด</button>
+      <button type="button" class="btn tbtn" data-tool="edge" data-key="3" title="เชื่อมเส้น (3)"><span class="ic">🔗</span>เชื่อมเส้น</button>
+      <button type="button" class="btn tbtn" data-tool="edit" data-key="4" title="แก้ชื่อ / น้ำหนัก (4)"><span class="ic">✏️</span>แก้ชื่อ / น้ำหนัก</button>
+      <button type="button" class="btn tbtn" data-tool="style" data-key="5" title="สี / รูปแบบ (5)"><span class="ic">🎨</span>สี / รูปแบบ</button>
+      <button type="button" class="btn tbtn" data-tool="bend" data-key="6" title="ดัดเส้น (6)"><span class="ic">〰️</span>ดัดเส้น</button>
+      <button type="button" class="btn tbtn" data-tool="reverse" data-key="7" title="กลับทิศเส้น (7)"><span class="ic">↔️</span>กลับทิศเส้น</button>
+      <button type="button" class="btn tbtn" data-tool="del" data-key="8" title="ลบ (8)"><span class="ic">🗑️</span>ลบ</button>
+      <span class="toolbar-divider" role="separator"></span>
+      <span class="toolbar-section">จัดระเบียบ</span>
+      <button type="button" class="btn tbtn" id="aLayout" title="จัดวางกราฟ (L)"><span class="ic">🪄</span>จัดวางกราฟ</button>
+      <button type="button" class="btn tbtn" id="aStraight" title="ทำเส้นตรง"><span class="ic">📏</span>ทำเส้นตรง</button>
+      <button type="button" class="btn tbtn danger" id="aClear" title="ล้างกราฟ"><span class="ic">🧹</span>ล้างกราฟ</button>
+    </nav>
     <div id="stage">
       <canvas id="cv"></canvas>
       <div id="badge"></div>
@@ -254,24 +318,18 @@ ol.steps li{margin-bottom:6px}
       <div id="zoom">
         <button type="button" class="btn" id="zIn" title="ซูมเข้า">+</button>
         <button type="button" class="btn" id="zOut" title="ซูมออก">−</button>
-        <button type="button" class="btn" id="zFit" title="จัดกึ่งกลาง">⌖</button>
+        <button type="button" class="btn" id="zFit" title="จัดกึ่งกลาง (F)">⌖</button>
       </div>
     </div>
     <aside id="dock">
+      <div class="dock-pinned">
       <aside id="practicePanel" aria-live="polite"></aside>
       <div class="dockhead">
-        <button type="button" class="btn tab selected-algorithm" id="currentAlgorithm" aria-label="อัลกอริทึมที่เลือก"></button>
-        <button type="button" class="btn tab-toggle" id="toggleTabs" aria-label="เลือกอัลกอริทึมอื่น" aria-expanded="false">▼</button>
-        <div class="tabgrid" id="tabs"></div>
+        <button type="button" class="btn tab selected-algorithm" id="currentAlgorithm" aria-label="อัลกอริทึมที่เลือก" aria-controls="tabs"></button>
+        <button type="button" class="btn tab-toggle" id="toggleTabs" aria-label="เลือกอัลกอริทึมอื่น" aria-expanded="false" aria-controls="tabs">▼</button>
+        <div class="tabgrid" id="tabs" role="group" aria-label="เลือกอัลกอริทึม"></div>
       </div>
       <div id="algoDesc" class="desc collapsible"></div>
-      <div id="isoMappingLegend" aria-live="polite"></div>
-      <div id="quickTools" class="collapsible">
-        <input id="nodeSearch" type="search" placeholder="ค้นหาจุดยอด..." aria-label="ค้นหาจุดยอด">
-        <button type="button" class="btn" id="searchNode">🔎 ไปยังจุด</button>
-        <input id="quickCommand" type="text" placeholder="คำสั่ง: v1-v2:5" aria-label="คำสั่งสร้างเส้น">
-        <button type="button" class="btn" id="runCommand">↵ ทำคำสั่ง</button>
-      </div>
       <div class="row collapsible" id="selRow">
         <label class="sel" id="lblS"><span id="lblSText">ต้นทาง</span><select id="selS"></select></label>
         <label class="sel" id="lblT"><span id="lblTText">ปลายทาง</span><select id="selT"></select></label>
@@ -281,7 +339,7 @@ ol.steps li{margin-bottom:6px}
         <div class="row">
           <button type="button" class="btn" id="bFirst" title="ขั้นแรก">⏮</button>
           <button type="button" class="btn" id="bPrev" title="ย้อน">◀</button>
-          <button type="button" class="btn" id="bPlay" title="เล่นอัตโนมัติ">▶</button>
+          <button type="button" class="btn" id="bPlay" title="เล่นอัตโนมัติ (Space)">▶</button>
           <button type="button" class="btn" id="bNext" title="ถัดไป">▶|</button>
           <button type="button" class="btn" id="bLast" title="ขั้นสุดท้าย">⏭</button>
         </div>
@@ -292,14 +350,27 @@ ol.steps li{margin-bottom:6px}
           <button type="button" class="btn" data-sp="2">2×</button>
           <button type="button" class="btn" data-sp="4">4×</button>
         </div>
-        <div id="stepText" class="stepbox"></div>
         <div class="row">
           <button type="button" class="btn" id="sumBtn" style="flex:1">📊 สรุปผล</button>
           <button type="button" class="btn danger" id="clearRunBtn" style="flex:1">✖ ล้างผล</button>
         </div>
       </div>
-      <div id="legend" class="legend collapsible"></div>
+      </div>
+      <div class="dock-scroll">
+      <div id="stepText" class="stepbox"></div>
+      <div id="isoMappingLegend" aria-live="polite"></div>
+      <details class="info-accordion collapsible" id="legendAccordion">
+        <summary>Legend</summary><div id="legend" class="legend"></div>
+      </details>
+      <details class="info-accordion collapsible" id="toolsAccordion">
+        <summary>เครื่องมือเสริม</summary>
+        <div id="quickTools">
+        <input id="quickCommand" type="text" placeholder="คำสั่ง: v1-v2:5" aria-label="คำสั่งสร้างเส้น">
+        <button type="button" class="btn" id="runCommand">↵ ทำคำสั่ง</button>
+        </div>
       <div class="row collapsible"><div id="quick"></div></div>
+      </details>
+      </div>
     </aside>
   </main>
 </div>
@@ -569,13 +640,23 @@ async function showSettings(){
   };
 }
 const TAB_EN={analyze:'Analyze',dijkstra:'Dijkstra',bellmanford:'Bellman–Ford',bfs:'BFS / DFS',prim:'Prim / MST',kruskal:'Kruskal / MST',connectivity:'Connectivity',vertexconnectivity:'Vertex Connectivity',edgeconnectivity:'Edge Connectivity',matching:'Matching',assignment:'Assignment',tspexact:'TSP Exact',tspnearest:'TSP Nearest',tsp2opt:'TSP 2-opt',pruferdecode:'Prufer Decode',havelhakimi:'Degree Sequence',hamiltonian:'Hamiltonian',transform:'Graph Transform',bipartite:'Bipartite',isomorphism:'Isomorphism',euler:'Euler',edgecolor:'Edge Coloring',color:'Vertex Coloring',flow:'Max Flow',planarity:'Planarity'};
+const TAB_GROUPS=[
+  {name:'ภาพรวมกราฟ',nameEn:'Graph overview',keys:['analyze','degreeSequence','complement','bipartite','isomorphism','planarity']},
+  {name:'เส้นทางและเครือข่าย',nameEn:'Paths and networks',keys:['dijkstra','bellmanford','flow']},
+  {name:'ต้นไม้แผ่ทั่ว',nameEn:'Spanning trees',keys:['prim','kruskal']},
+  {name:'เส้นทางที่ผ่านครบ',nameEn:'Complete-traversal paths',keys:['euler','hamiltonian']},
+  {name:'ความเชื่อมโยง',nameEn:'Connectivity',keys:['vertexconnectivity','edgeconnectivity']},
+  {name:'การระบายสี',nameEn:'Coloring',keys:['color','edgeColor']}
+];
 function renderMainNavigation(){
   const english=preferences.language==='en';
-  $('#editToolsLabel').textContent=english?'Graph editing':'แก้ไขกราฟ';
-  $('#otherToolsLabel').textContent=english?'Graph & learning':'กราฟและการเรียนรู้';
+  renderAlgorithmGroups();
+  $('#createMenuLabel').textContent=english?'Create':'การสร้าง';
+  $('#saveMenuLabel').textContent=english?'Save':'การบันทึก';
   $$('#tabs [data-tab]').forEach(button=>{const tab=TABS[button.dataset.tab];if(tab)button.textContent=`${tab.icon} ${english?(TAB_EN[button.dataset.tab]||tab.name):tab.name}`;});
   const selectedTab=TABS[algo];
   $('#currentAlgorithm').textContent=`${selectedTab.icon} ${english?(TAB_EN[algo]||selectedTab.name):selectedTab.name}`;
+  $$('#tabs [data-tab]').forEach(button=>button.classList.toggle('on',button.dataset.tab===algo));
   const toolbarLabels=english
     ?{move:'Move / Pan',node:'Add vertex',edge:'Add edge',edit:'Edit label / weight',style:'Color / style',bend:'Bend edge',reverse:'Reverse edge',del:'Delete'}
     :{move:'ย้าย / เลื่อน',node:'เพิ่มจุด',edge:'เชื่อมเส้น',edit:'แก้ชื่อ / น้ำหนัก',style:'สี / รูปแบบ',bend:'ดัดเส้น',reverse:'กลับทิศเส้น',del:'ลบ'};
@@ -584,18 +665,40 @@ function renderMainNavigation(){
     if(button&&icon)button.replaceChildren(icon,document.createTextNode(label));
   });
   const commandLabels=english
-    ?{aStraight:'Straighten edges',aPreset:'Examples',aLearning:'Learning',aGenerate:'Generate graph',aLayout:'Auto layout',aPNG:'Export PNG',aClear:'Clear graph',aExportSteps:'Export steps',aLibrary:'Graph library',aSettings:'Background / vertex settings'}
-    :{aStraight:'ทำเส้นตรง',aPreset:'ตัวอย่าง',aLearning:'การเรียนรู้',aGenerate:'สร้างกราฟ',aLayout:'จัดวางกราฟ',aPNG:'ส่งออก PNG',aClear:'ล้างกราฟ',aExportSteps:'ส่งออกขั้นตอน',aLibrary:'คลังกราฟ',aSettings:'ตั้งค่าพื้นหลัง / จุดยอด'};
+    ?{aStraight:'Straighten edges',aLearning:'Learning',aLayout:'Auto layout',aClear:'Clear graph',aSettings:'Background / vertex settings'}
+    :{aStraight:'ทำเส้นตรง',aLearning:'การเรียนรู้',aLayout:'จัดวางกราฟ',aClear:'ล้างกราฟ',aSettings:'ตั้งค่าพื้นหลัง / จุดยอด'};
   Object.entries(commandLabels).forEach(([id,label])=>{
     const button=$(`#${id}`),icon=button?.querySelector('.ic');
     if(button&&icon)button.replaceChildren(icon,document.createTextNode(label));
   });
-  $('#aLibrary').textContent=english?'🗃️ Graph library':'🗃️ คลังกราฟ';
   $('#aSettings').textContent='⚙️';
   $('#aSettings').title=english?'Background / vertex settings':'ตั้งค่าพื้นหลัง / จุดยอด';
   $('#aHelp').textContent='❓';
-  $('#aHelp').title=english?'Help':'วิธีใช้';
-  $('#dirTxt').textContent=english?(G.directed?'Directed':'Undirected'):(G.directed?'มีทิศ':'ไม่มีทิศ');
+  $('#aHelp').title=english?'Help and keyboard shortcuts':'วิธีใช้และคีย์ลัด';
+  $('#aDir').options[0].textContent=english?'Undirected':'ไม่มีทิศทาง';
+  $('#aDir').options[1].textContent=english?'Directed':'มีทิศทาง';
+  $('#aDir').value=G.directed?'directed':'undirected';
+  $('#legendAccordion summary').textContent=english?'Legend':'Legend';
+  $('#toolsAccordion summary').textContent=english?'Extra tools':'เครื่องมือเสริม';
+}
+function renderAlgorithmGroups(){
+  const assigned=new Set();
+  const groups=TAB_GROUPS.map(group=>{
+    const keys=group.keys.filter(key=>TABS[key]);
+    keys.forEach(key=>assigned.add(key));
+    return {...group,keys};
+  });
+  const remaining=Object.keys(TABS).filter(key=>!assigned.has(key));
+  if(remaining.length)groups.push({name:'อัลกอริทึมอื่น',nameEn:'Other algorithms',keys:remaining});
+  $('#tabs').innerHTML=groups.filter(group=>group.keys.length).map(group=>`
+    <section class="tab-group">
+      <h3 class="tab-group-title">${preferences.language==='en'?group.nameEn:group.name}</h3>
+      <div class="tab-group-items">${group.keys.map(key=>{
+        const tab=TABS[key];
+        const name=preferences.language==='en'?(TAB_EN[key]||tab.name):tab.name;
+        return `<button type="button" class="btn tab" data-tab="${key}">${tab.icon} ${name}</button>`;
+      }).join('')}</div>
+    </section>`).join('');
 }
 function showStepExport(){
   if(!run)return toast('ยังไม่มีขั้นตอนให้ส่งออก');
@@ -730,24 +833,33 @@ function hitEdge(w){
 /* ---------- rendering ---------- */
 function resize(){
   const r = $('#stage').getBoundingClientRect(); DPR = window.devicePixelRatio || 1;
-  W = Math.max(1, isoSplitView ? r.width/2 : r.width); H = Math.max(1, r.height);
+  const verticalSplit=isoSplitView&&window.matchMedia('(max-width:600px) and (orientation:portrait)').matches;
+  W = Math.max(1, isoSplitView&&!verticalSplit ? r.width/2 : r.width);
+  H = Math.max(1, isoSplitView&&verticalSplit ? r.height/2 : r.height);
   cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR); cv.style.width = W+'px'; cv.style.height = H+'px';
   if(isoSplitView){
-    const rightW = Math.max(1, r.width-W);
-    isoCv.width = Math.round(rightW*DPR); isoCv.height = Math.round(H*DPR);
-    isoCv.style.width = rightW+'px'; isoCv.style.height = H+'px';
+    const pane=isoPaneSize();
+    isoCv.width = Math.round(pane.width*DPR); isoCv.height = Math.round(pane.height*DPR);
+    isoCv.style.width = pane.width+'px'; isoCv.style.height = pane.height+'px';
   }
   draw();
+}
+function isoPaneSize(){
+  const r=$('#stage').getBoundingClientRect();
+  const verticalSplit=isoSplitView&&window.matchMedia('(max-width:600px) and (orientation:portrait)').matches;
+  return verticalSplit
+    ?{width:Math.max(1,r.width),height:Math.max(1,r.height-H)}
+    :{width:Math.max(1,r.width-W),height:H};
 }
 function currentStep(){ return run ? run.steps[stepIdx] : null; }
 function draw(){
   ctx.setTransform(DPR,0,0,DPR,0,0);
   renderScene(ctx, W, H, view, algo === 'isomorphism' && isoFirstGraph ? isoFirstGraph : G, algo === 'isomorphism' ? null : undefined, false);
   if(isoSplitView){
-    const r = $('#stage').getBoundingClientRect(), rightW = Math.max(1,r.width-W);
+    const pane=isoPaneSize();
     isoCtx.setTransform(DPR,0,0,DPR,0,0);
-    if(isoGraph) renderScene(isoCtx, rightW, H, isoView, isoGraph, null, true);
-    else { isoCtx.clearRect(0,0,rightW,H); isoCtx.fillStyle=PAPER; isoCtx.fillRect(0,0,rightW,H); }
+    if(isoGraph) renderScene(isoCtx, pane.width, pane.height, isoView, isoGraph, null, true);
+    else { isoCtx.clearRect(0,0,pane.width,pane.height); isoCtx.fillStyle=PAPER; isoCtx.fillRect(0,0,pane.width,pane.height); }
   }
   const flowStep = currentStep();
   const hasVisibleFlow = flowStep && flowStep.etext &&
@@ -976,6 +1088,9 @@ function drawStyledEdge(c,e,path,g,edgeColor,key,hovered,progress=1){
 function drawNode(c, n, st, comparisonPanel=false){
   const hovered = !comparisonPanel && hoverNode === n.id;
   const sty = st && st.node ? st.node[n.id] : null, r = NR;
+  const isoVertexPairIndex=algo==='isomorphism'&&isoMapping
+    ?isoColors.findIndex(pair=>(comparisonPanel?pair.rightId:pair.leftId)===String(n.id)):-1;
+  const isoVertexMatched=isoVertexPairIndex>=0&&stepIdx>isoVertexPairIndex;
   const pulse=!comparisonPanel&&(sty==='current'||sty==='consider')?stepFxProgress():0;
   if(hovered||pulse>0){
     c.save();
@@ -990,8 +1105,11 @@ function drawNode(c, n, st, comparisonPanel=false){
   if(st && st.fill){ if(st.fill[n.id] != null) fill = PALETTE[st.fill[n.id] % PALETTE.length]; }
   else if(!st && n.color != null) fill = PALETTE[n.color % PALETTE.length];
   if(!(st && st.fill) && sty && NODE_FILL[sty]) fill = NODE_FILL[sty];
+  if(isoVertexMatched) fill=isoColors[isoVertexPairIndex].color;
   let ring = null; if(sty === 'current') ring = '#b13e53'; if((comparisonPanel?isoSelNode:selNode)===n.id) ring = '#41a6f6';
-  const vertexColorIndex=st&&st.fill
+  const vertexColorIndex=isoVertexMatched
+    ?isoVertexPairIndex%PALETTE.length
+    :st&&st.fill
     ?(st.fill[n.id] == null ? null : st.fill[n.id])
     :n.color;
   const sourceVertexImage=n.vertexImage?getVertexImage(n.vertexImage):null;
@@ -1051,7 +1169,7 @@ function fitGraphView(graph, width, height){
   let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
   graph.nodes.forEach(node=>{x0=Math.min(x0,node.x);y0=Math.min(y0,node.y);x1=Math.max(x1,node.x);y1=Math.max(y1,node.y);});
   x0-=80;x1+=80;y0-=60;y1+=90;
-  const top=88,bottom=52,availableHeight=Math.max(1,height-top-bottom);
+  const top=Math.min(88,height*0.2),bottom=Math.min(52,height*0.1),availableHeight=Math.max(1,height-top-bottom);
   const scale=clamp(Math.min(width/(x1-x0),availableHeight/(y1-y0)),MINS,1.6);
   return {s:scale,x:width/2-(x0+x1)/2*scale,y:top+availableHeight/2-(y0+y1)/2*scale};
 }
@@ -1065,8 +1183,8 @@ function setIsomorphismSplit(enabled){
     resize();
     fitView();
     if(isoGraph){
-      const r=$('#stage').getBoundingClientRect();
-      isoView=fitGraphView(isoGraph,Math.max(1,r.width-W),H);
+      const pane=isoPaneSize();
+      isoView=fitGraphView(isoGraph,pane.width,pane.height);
     }
   }else{
     isoSplitView=false;
@@ -1080,8 +1198,8 @@ function setIsomorphismSplit(enabled){
 function fitView(){
   if(isoSplitView){
     if(lastActiveSide==='right'&&isoGraph){
-      const r=$('#stage').getBoundingClientRect();
-      isoView=fitGraphView(isoGraph,Math.max(1,r.width-W),H);
+      const pane=isoPaneSize();
+      isoView=fitGraphView(isoGraph,pane.width,pane.height);
     }else view=fitGraphView(G,W,H);
     draw();save();return;
   }
@@ -1172,7 +1290,6 @@ function bindCanvas(canvas,side){
       draw();
     }
   });
-  listen('contextmenu',e=>e.preventDefault());
   listen('wheel',e=>{e.preventDefault();const p=ptr(e,canvas);zoomAt(p.x,p.y,Math.exp(-e.deltaY*0.0015));},{passive:false});
 }
 bindCanvas(cv,'left');
@@ -1443,7 +1560,7 @@ function analysisHTML(){
   const degreeSeq=G.nodes.map(x=>deg[x.id].deg).sort((a,b)=>b-a);
   const weightSum=G.edges.reduce((a,e)=>a+e.w,0);
   let h = `<div class="cards">${card('|V| จำนวนจุดยอด', n)}${card('|E| จำนวนเส้นเชื่อม', m)}${card('ชนิดกราฟ', G.directed?'มีทิศทาง →':'ไม่มีทิศทาง —')}${card('Components', comps.length)}</div>`;
-  if(!n) return h + '<div class="hero warn">ยังไม่มีจุดยอด ลองกด 📂 ตัวอย่าง หรือ ⬛ เพิ่มจุด</div>';
+  if(!n) return h + '<div class="hero warn">ยังไม่มีจุดยอด ลองเปิด “การสร้าง” เพื่อเลือกตัวอย่าง หรือกด ⬛ เพิ่มจุด</div>';
   h += `<h3>คุณสมบัติ</h3><div class="cards">${card('Simple',simple?'ใช่':'ไม่ใช่')}${card('Self-loop',loops)}${card('เส้นขนานเพิ่มเติม',parallel)}${card('Complete',complete?'ใช่':'ไม่ใช่')}${card('Bipartite',bipartite?'ใช่':'ไม่ใช่')}${card('Tree',tree?'ใช่':'ไม่ใช่')}${card('DAG',isDAG()?'ใช่':'ไม่ใช่')}${card('Strongly Connected',isStronglyConnected()?'ใช่':'ไม่ใช่')}${card('Density',density.toFixed(3))}${card('ผลรวมน้ำหนัก',fmt(weightSum))}</div>`;
   h += `<p><b>Degree Sequence:</b> (${degreeSeq.join(', ')})</p>`;
   const metrics=graphMetrics();
@@ -1521,7 +1638,9 @@ async function runPythonAlgorithm(algorithm, extra = {}){
       if(result.planar===true&&result.planarLayout)preparePlanarityAnimation(result.planarLayout);
       else resetPlanarityAnimation();
     }
-    if(result.key === 'pruferDecode' || result.key === 'graphTransform' || (result.key === 'degreeSequence' && result.exists)){
+    if(result.key === 'pruferDecode' ||
+      (result.key === 'graphTransform' && extra.operation !== 'complement') ||
+      (result.key === 'degreeSequence' && result.exists)){
       pushUndo();
       const center = toWorld(W/2, H/2), radius = Math.max(90, result.nodes.length * 18);
       G = emptyGraph();
@@ -1535,6 +1654,8 @@ async function runPythonAlgorithm(algorithm, extra = {}){
       G.nextEid = G.edges.length + 1;
       afterChange();
       fitView();
+    } else if(result.key === 'graphTransform' && extra.operation === 'complement'){
+      displayComplementComparison(result);
     } else if(result.key === 'color'){
       pushUndo();
       G.nodes.forEach(n => { n.color = result.colors[n.id] ?? null; });
@@ -1564,6 +1685,8 @@ async function runPythonAlgorithm(algorithm, extra = {}){
   }
 }
 function displayIsomorphismComparison(otherGraph,result){
+  $('#isoRightPane .iso-pane-title').textContent='กราฟที่ 2';
+  $('#stage .iso-pane-title.left').textContent='กราฟที่ 1';
   isoGraph = JSON.parse(JSON.stringify(otherGraph));
   const nodeCount=isoGraph.nodes.length, radius=Math.min(240,Math.max(90,nodeCount*24));
   isoGraph.nodes=isoGraph.nodes.map((node,index)=>{
@@ -1584,7 +1707,7 @@ function displayIsomorphismComparison(otherGraph,result){
       const left=leftById.get(String(leftId)),right=rightById.get(String(rightId));
       if(!left||!right) continue;
       const colorIndex=index%PALETTE.length,color=PALETTE[colorIndex];
-      left.color=colorIndex;right.color=colorIndex;colorByLeft.set(String(leftId),colorIndex);
+      colorByLeft.set(String(leftId),colorIndex);
       isoColors.push({leftId:String(leftId),rightId:String(rightId),leftLabel:left.label,rightLabel:right.label,color});
     }
     const rightEdgeByPair=new Map();
@@ -1606,8 +1729,8 @@ function displayIsomorphismComparison(otherGraph,result){
     $('#isoMappingLegend').classList.remove('visible');
     $('#isoRightStatus').textContent='ไม่ Isomorphic — ไม่พบการจับคู่ที่รักษาเส้นเชื่อม';
   }
-  const stageRect=$('#stage').getBoundingClientRect();
-  isoView=fitGraphView(isoGraph,Math.max(1,stageRect.width-W),H);
+  const pane=isoPaneSize();
+  isoView=fitGraphView(isoGraph,pane.width,pane.height);
   if(isoMapping){
     const leftById=new Map(isoFirstGraph.nodes.map(node=>[String(node.id),node]));
     isoAnimation={frame:0,initial:new Map(),targets:new Map()};
@@ -1627,13 +1750,15 @@ function isomorphismAnimationSteps(){
   return [
     {msg:'เริ่มต้น: กราฟที่สองยังอยู่ในตำแหน่งเดิม'},
     ...isoColors.map((pair,index)=>({msg:`จับคู่จุด ${pair.rightLabel} ↔ ${pair.leftLabel} (${index+1}/${isoColors.length})`})),
-    ...isoEdgePairs.map((pair,index)=>({msg:`จับคู่เส้น e${pair.rightId} ↔ e${pair.leftId} (${index+1}/${isoEdgePairs.length})`}))
+    ...isoEdgePairs.map((pair,index)=>({msg:`จับคู่เส้น e${pair.rightId} ↔ e${pair.leftId} (${index+1}/${isoEdgePairs.length})`})),
+    ...isoColors.map((pair,index)=>({msg:`จัดตำแหน่งจุด ${pair.rightLabel} ให้ตรงกับ ${pair.leftLabel} (${index+1}/${isoColors.length})`}))
   ];
 }
 function animateIsomorphismTo(index){
   if(!isoAnimation||!isoGraph||algo!=='isomorphism') return;
   if(isoAnimation.frame) cancelAnimationFrame(isoAnimation.frame);
-  const matched=new Set(isoColors.slice(0,clamp(index,0,isoColors.length)).map(pair=>pair.rightId));
+  const layoutCount=clamp(index-isoColors.length-isoEdgePairs.length,0,isoColors.length);
+  const matched=new Set(isoColors.slice(0,layoutCount).map(pair=>pair.rightId));
   const starts=new Map(),destinations=new Map();
   isoGraph.nodes.forEach(node=>{
     const id=String(node.id),target=matched.has(id)?isoAnimation.targets.get(id):isoAnimation.initial.get(id);
@@ -1652,6 +1777,28 @@ function animateIsomorphismTo(index){
     else isoAnimation.frame=0;
   };
   isoAnimation.frame=requestAnimationFrame(frame);
+}
+function displayComplementComparison(result){
+  const nodeCount=result.nodes.length,radius=Math.min(240,Math.max(90,nodeCount*24));
+  isoGraph=sanitize({
+    nodes:result.nodes.map((node,index)=>{
+      const angle=2*Math.PI*index/Math.max(1,nodeCount)-Math.PI/2;
+      return {...node,x:400+radius*Math.cos(angle),y:300+radius*Math.sin(angle),color:null};
+    }),
+    edges:result.edges.map(edge=>({...edge,curve:0,color:null})),
+    directed:false,
+    nextId:Math.max(1,...result.nodes.map(node=>node.id+1)),
+    nextEid:Math.max(1,...result.edges.map(edge=>edge.id+1))
+  });
+  isoFirstGraph=null;isoMapping=null;isoColors=[];isoEdgePairs=[];isoAnimation=null;
+  setIsomorphismSplit(true);
+  $('#isoRightStatus').textContent=`Complement ของกราฟเดิม • ${isoGraph.nodes.length} จุด • ${isoGraph.edges.length} เส้น`;
+  $('#isoRightPane .iso-pane-title').textContent='Complement';
+  $('#stage .iso-pane-title.left').textContent='กราฟเดิม';
+  const pane=isoPaneSize();
+  isoView=fitGraphView(isoGraph,pane.width,pane.height);
+  fitView();
+  draw();
 }
 function invalidateIsomorphismResult(){
   if(!isoFirstGraph&&!isoMapping&&!isoColors.length)return;
@@ -1945,6 +2092,8 @@ function setTab(key){
     $('#isoMappingLegend').classList.remove('visible');
     $('#isoRightStatus').textContent='เลือก Isomorphic Graphs แล้วเริ่มเปรียบเทียบเพื่อแสดงกราฟที่สอง';
   }else{
+    $('#isoRightPane .iso-pane-title').textContent='กราฟที่ 2';
+    $('#stage .iso-pane-title.left').textContent='กราฟที่ 1';
     $('#isoRightStatus').textContent=isoGraph
       ? `กราฟที่สองมี ${isoGraph.nodes.length} จุด • ${isoGraph.edges.length} เส้น — ใช้เครื่องมือด้านบนแก้ไขได้`
       : 'เลือกเครื่องมือเพิ่มจุด/เชื่อมเส้น แล้วสร้างกราฟที่สองทางฝั่งขวา';
@@ -1952,6 +2101,7 @@ function setTab(key){
   clearRun();
   $$('#tabs .btn').forEach(b => b.classList.toggle('on', b.dataset.tab === algo));
   $('#tabs').hidden=true;
+  $('#dock').classList.remove('tabs-open');
   $('#toggleTabs').textContent='▼';
   $('#toggleTabs').setAttribute('aria-expanded','false');
   renderMainNavigation();
@@ -1961,6 +2111,7 @@ function setTab(key){
   if(T.s) $('#lblSText').textContent = T.s; if(T.t) $('#lblTText').textContent = T.t;
   $('#runBtn').textContent = algo === 'analyze' ? '🔍 เปิดผลวิเคราะห์' : `▶ เริ่มรัน ${T.name}`;
   $('#player').style.display = algo === 'analyze' ? 'none' : '';
+  $('#stepText').style.display = algo === 'analyze' ? 'none' : '';
   $('#legend').innerHTML = LEGENDS[algo];
   updatePlayer(); save(); draw();
 }
@@ -1974,8 +2125,7 @@ function updateBadge(){
   const comps = G.nodes.length ? components().length : 0;
   $('#badge').textContent = `|V| ${G.nodes.length} · |E| ${G.edges.length} · ${G.directed ? 'มีทิศ →' : 'ไม่มีทิศ —'}`;
   const controlGraph=lastActiveSide==='right'&&isoSplitView&&isoGraph?isoGraph:G;
-  $('#dirIc').textContent = controlGraph.directed ? '→' : '—';
-  $('#dirTxt').textContent = controlGraph.directed ? 'มีทิศ' : 'ไม่มีทิศ';
+  $('#aDir').value=controlGraph.directed?'directed':'undirected';
   $('#quick').textContent = `|V| = ${G.nodes.length} • |E| = ${G.edges.length} • ` + (comps <= 1 ? 'Connected ✔' : `⚠ ไม่ Connected (${comps} ส่วน)`) + ` • Undo ได้ ${undoStack.length} ขั้น`;
 }
 const HINTS = {
@@ -2047,31 +2197,33 @@ const PRESETS = {
     [[1,2,16],[1,3,13],[3,2,4],[2,4,12],[4,3,9],[3,5,14],[5,4,7],[4,6,20],[5,6,4]], {source:1, sink:6})},
   roadNetwork:{name:'🛣️ ถนนระหว่างเมือง',tab:'dijkstra',desc:'ค้นหาเส้นทางที่สั้นที่สุดบนโครงข่ายถนน โดยไฮไลต์เส้นทางที่เลือก',build:()=>setSurface(PRESETS.transport.build(),'road')},
   roadMst:{name:'🚧 สร้างถนนเชื่อมเมือง',tab:'prim',desc:'หาโครงข่ายถนนต้นทุนต่ำสุดด้วย Prim หรือ Kruskal',build:()=>setSurface(PRESETS.city.build(),'road')},
-  bellmanExample:{name:'➖ เส้นทางมีน้ำหนักติดลบ',tab:'bellmanford',desc:'สาธิต Bellman–Ford บนกราฟมีน้ำหนักติดลบและไม่มี negative cycle',build:()=>mk(true,
-    [[100,260,'ต้นทาง'],[310,100,'B'],[330,420,'C'],[570,260,'ปลายทาง']],
-    [[1,2,4],[1,3,5],[2,3,-2],[2,4,4],[3,4,3]],{source:1,sink:4})},
-  eulerCycle:{name:'🔁 Euler Circuit ตัวอย่าง',tab:'euler',desc:'วงจรสี่เหลี่ยมที่ทุกจุดมี degree คู่ เดินผ่านทุกเส้นได้ครบหนึ่งครั้ง',build:()=>mk(false,
-    [[170,160,'A'],[570,160,'B'],[570,430,'C'],[170,430,'D']],[[1,2,1],[2,3,1],[3,4,1],[4,1,1]])},
-  bipartiteExample:{name:'◐ กราฟสองส่วน K₂,₃',tab:'bipartite',desc:'ตรวจแบ่งจุดเป็นสองฝั่งและไฮไลต์เส้นระหว่าง partition',build:()=>mk(false,
-    [[180,170,'A'],[180,400,'B'],[570,100,'X'],[570,285,'Y'],[570,470,'Z']],
-    [[1,3,1],[1,4,1],[1,5,1],[2,3,1],[2,4,1],[2,5,1]])},
+  bellmanExample:{name:'➖ เส้นทางมีน้ำหนักติดลบ (8 จุด)',tab:'bellmanford',desc:'DAG 8 จุด มีน้ำหนักติดลบแต่ไม่มี negative cycle',build:()=>mk(true,
+    [[90,280,'ต้นทาง'],[250,120,'B'],[250,440,'C'],[420,100,'D'],[420,280,'E'],[420,460,'F'],[600,190,'G'],[730,350,'ปลายทาง']],
+    [[1,2,4],[1,3,5],[2,3,-2],[2,4,3],[3,4,4],[3,5,2],[4,5,-1],[4,6,5],[5,6,3],[5,7,6],[6,7,-2],[6,8,4],[7,8,2]],{source:1,sink:8})},
+  eulerCycle:{name:'🔁 Euler Circuit ตัวอย่าง (7 จุด)',tab:'euler',desc:'วงจร C₇ เชื่อมต่อและทุกจุดมี degree 2 จึงเดินผ่านครบทุกเส้นได้หนึ่งครั้ง',build:()=>mk(false,
+    Array.from({length:7},(_,i)=>{const a=2*Math.PI*i/7-Math.PI/2;return [400+260*Math.cos(a),300+230*Math.sin(a),String.fromCharCode(65+i)];}),
+    Array.from({length:7},(_,i)=>[i+1,(i+1)%7+1,1]))},
+  bipartiteExample:{name:'◐ กราฟสองส่วน K₃,₄',tab:'bipartite',desc:'กราฟสมบูรณ์สองส่วน K₃,₄ มี 7 จุดยอดและ 12 เส้นเชื่อม',build:()=>mk(false,
+    [[180,150,'A'],[180,300,'B'],[180,450,'C'],[620,100,'X'],[620,220,'Y'],[620,340,'Z'],[620,460,'W']],
+    Array.from({length:12},(_,i)=>[Math.floor(i/4)+1,4+i%4,1]))},
   isomorphismExample:{name:'🔁 เส้นทางสำหรับ Isomorphism',tab:'isomorphism',desc:'เปรียบเทียบเส้นทาง 4 จุดกับกราฟเดิมที่เปลี่ยนชื่อและลำดับจุด',build:()=>mk(false,
     [[160,160,'A'],[360,160,'B'],[560,160,'C'],[760,160,'D']],[[1,2,1],[2,3,1],[3,4,1]])},
   connectivityExample:{name:'✂️ วงจรสำหรับ Connectivity',tab:'vertexconnectivity',desc:'ใช้วงจร 5 จุดสาธิต minimum vertex cut และ edge cut',build:()=>mk(false,
     [[400,90,'A'],[680,250,'B'],[570,500,'C'],[230,500,'D'],[120,250,'E']],
     [[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,1,1]])},
-  degreeExample:{name:'🧮 Degree Sequence (3, 2, 2, 1)',tab:'degreeSequence',desc:'ตัวอย่างลำดับดีกรีที่สร้างกราฟได้ ใช้ตรวจด้วย Havel–Hakimi',build:()=>mk(false,
-    [[400,100,'A'],[200,350,'B'],[600,350,'C'],[400,500,'D']],[[1,2,1],[1,3,1],[1,4,1],[2,3,1]])},
+  degreeExample:{name:'🧮 Degree Sequence (8 จุด)',tab:'degreeSequence',desc:'ลำดับดีกรี (3, 3, 2, 2, 2, 1, 1, 0) สร้างกราฟได้',build:()=>mk(false,
+    [[400,90,'A'],[220,190,'B'],[580,190,'C'],[170,390,'D'],[400,390,'E'],[620,390,'F'],[310,540,'G'],[500,540,'H']],
+    [[1,2,1],[1,3,1],[1,4,1],[2,3,1],[2,4,1],[5,6,1],[5,7,1]])},
   complementExample:{name:'◐ เส้นทางสำหรับ Complement',tab:'complement',desc:'ดูกราฟเติมเต็มของเส้นทาง 4 จุด',build:()=>mk(false,
     [[160,300,'A'],[360,300,'B'],[560,300,'C'],[760,300,'D']],[[1,2,1],[2,3,1],[3,4,1]])},
-  edgeColorExample:{name:'🎨 ระบายสีเส้นแบบดาว',tab:'edgeColor',desc:'ระบายสีเส้นที่มีจุดร่วมให้ต่างสีกันบนกราฟดาว',build:()=>mk(false,
-    [[400,300,'ศูนย์กลาง'],[170,130,'A'],[650,130,'B'],[650,470,'C'],[170,470,'D']],
-    [[1,2,1],[1,3,1],[1,4,1],[1,5,1]])}
+  edgeColorExample:{name:'🎨 ระบายสีเส้น K₆ (6 จุด 15 เส้น)',tab:'edgeColor',desc:'กราฟสมบูรณ์ K₆ มี 6 จุดยอดและ 15 เส้นเชื่อม',build:()=>mk(false,
+    Array.from({length:6},(_,i)=>{const a=2*Math.PI*i/6-Math.PI/2;return [400+250*Math.cos(a),300+230*Math.sin(a),String.fromCharCode(65+i)];}),
+    Array.from({length:6},(_,i)=>Array.from({length:5-i},(_,offset)=>[i+1,i+offset+2,1])).flat())}
 };
 const ALGORITHM_EXAMPLES={
   analyze:'transport',dijkstra:'roadNetwork',bellmanford:'bellmanExample',prim:'roadMst',kruskal:'roadMst',
   euler:'eulerCycle',bipartite:'bipartiteExample',isomorphism:'isomorphismExample',
-  hamiltonian:'petersen',planarity:'k33',vertexconnectivity:'connectivityExample',
+  hamiltonian:'petersen',planarity:'fourmap',vertexconnectivity:'connectivityExample',
   edgeconnectivity:'connectivityExample',degreeSequence:'degreeExample',complement:'complementExample',
   edgeColor:'edgeColorExample',color:'exam',flow:'pipe'
 };
@@ -2203,6 +2355,22 @@ function showPresets(){
     <button type="button" class="btn primary" data-example-category="problems">🧩 ตัวอย่างโจทย์</button>
   </div>`);
 }
+function showCreateMenu(){
+  const english=preferences.language==='en';
+  openModal(english?'🧩 Create':'🧩 การสร้าง',`<p>${english?'Choose a way to create or arrange a graph.':'เลือกวิธีสร้างหรือจัดวางกราฟ'}</p><div class="example-categories">
+    <button type="button" class="btn primary" data-main-menu-action="examples">📂 ${english?'Examples':'ตัวอย่าง'}</button>
+    <button type="button" class="btn primary" data-main-menu-action="generate">🧩 ${english?'Generate graph':'สร้างกราฟ'}</button>
+    <button type="button" class="btn primary" data-main-menu-action="layout">🪄 ${english?'Auto layout':'จัดวางกราฟ'}</button>
+  </div>`);
+}
+function showSaveMenu(){
+  const english=preferences.language==='en';
+  openModal(english?'💾 Save':'💾 การบันทึก',`<p>${english?'Choose what to save or export.':'เลือกข้อมูลที่ต้องการบันทึกหรือส่งออก'}</p><div class="example-categories">
+    <button type="button" class="btn primary" data-main-menu-action="png">🖼️ ${english?'Export PNG':'ส่งออก PNG'}</button>
+    <button type="button" class="btn primary" data-main-menu-action="steps">📄 ${english?'Export steps':'ส่งออกขั้นตอน'}</button>
+    <button type="button" class="btn primary" data-main-menu-action="library">🗃️ ${english?'Graph library':'คลังกราฟ'}</button>
+  </div>`);
+}
 function renderExampleCategory(category){
   if(category==='algorithms'){
     const algorithms=Object.entries(ALGORITHM_EXAMPLES).map(([key,presetKey])=>{
@@ -2234,7 +2402,7 @@ function loadAlgorithmExample(key){
   if(!preset||!tab)return toast('ไม่พบตัวอย่างของอัลกอริทึมนี้');
   pushUndo();G=randomizeAlgorithmExample(key,preset.build());selNode=null;closeModal();setTab(key);afterChange();fitView();
   if(key==='analyze'){showAnalysis();return;}
-  if(key==='degreeSequence'){showDegreeSequenceInput('3, 2, 2, 1');return;}
+  if(key==='degreeSequence'){showDegreeSequenceInput('3, 3, 2, 2, 2, 1, 1, 0');return;}
   if(key==='isomorphism'){
     const otherGraph={nodes:G.nodes.map((node,index)=>({id:index+1,label:`จุด ${String.fromCharCode(87+index)}`})),
       edges:[{id:1,u:1,v:3,w:1},{id:2,u:3,v:4,w:1},{id:3,u:4,v:2,w:1}],directed:false};
@@ -2424,7 +2592,7 @@ function showHelp(){
   openModal('❓ วิธีใช้ Graph Theory Lab', `<div class="hero">👋 ยินดีต้อนรับ! ทดลองอัลกอริทึมกราฟสำหรับงานขนส่งและผังเมือง</div>
   <h3>เริ่มใน 3 ขั้น</h3>
   <ol class="steps">
-    <li><b>สร้างกราฟ</b> — กด ⬛ เพิ่มจุด แล้วแตะพื้นที่ว่าง → กด 🔗 เชื่อมเส้น แล้วแตะ 2 จุด (หรือกด 📂 ตัวอย่าง)</li>
+    <li><b>สร้างกราฟ</b> — กด ⬛ เพิ่มจุด แล้วแตะพื้นที่ว่าง → กด 🔗 เชื่อมเส้น แล้วแตะ 2 จุด (หรือเปิด “การสร้าง” เพื่อเลือกตัวอย่าง)</li>
     <li><b>เลือกอัลกอริทึม</b> ที่แผงด้านข้าง; กด ▼ เพื่อเปิดรายการเปลี่ยนอัลกอริทึม แล้วเลือกต้นทาง-ปลายทาง</li>
     <li><b>กด ▶ เริ่มรัน</b> แล้วดูทีละขั้นด้วย ⏮ ◀ ▶ ▶| ⏭ จากนั้นกด 📊 สรุปผล</li>
   </ol>
@@ -2444,7 +2612,7 @@ function showHelp(){
   <h3>ทางลัด</h3>
   <p>Ctrl/⌘+Z = Undo • Ctrl/⌘+Y หรือ Ctrl/⌘+Shift+Z = Redo (ประมาณ 70 ขั้น) • 1–8 = เลือกเครื่องมือ • G = สร้างกราฟ • L = จัดวาง • F = จัดกึ่งกลาง • ← → = ย้อน/ถัดไป • Space = เล่น/หยุด • ล้อเมาส์หรือบีบ 2 นิ้ว = ซูม</p>
   <div class="note">🧩 สร้างกราฟ Kₙ, Cₙ, Pₙ, Star, Kₘ,ₙ, Grid, Qₙ, G(n,p), Random Tree, DAG และ Petersen • ตัวอย่างมี K₃,₃ และปัญหาสะพานทั้ง 7 ของเคอนิกส์แบร์ก • ค้นหาจุดยอดหรือพิมพ์คำสั่งเช่น v1-v2:-2</div>
-  <div class="note">📚 ปุ่ม “ตัวอย่าง” แยกตัวอย่างอัลกอริทึมและตัวอย่างโจทย์ • ปุ่ม “การเรียนรู้” รวมแบบฝึกหัดสุ่ม บทเรียน และอภิธานศัพท์ • เลือกอัลกอริทึมจากแผงด้านข้าง; กด ▼ เพื่อเปลี่ยน • เลือก “สี / รูปแบบ” แล้วแตะจุดเพื่อเปลี่ยนสีหรือเลือกรูป PNG/SVG โปร่งใส และแตะเส้นเพื่อเปลี่ยนสีหรือรูปแบบเส้น • ตั้งค่าสี/ภาพพื้นหลัง ภาพเริ่มต้นของจุดใหม่ และซ่อนป้ายชื่อจุดหรือน้ำหนักเส้นได้จาก “ตั้งค่าพื้นหลัง / จุดยอด”</div>
+  <div class="note">📚 ปุ่ม “การสร้าง” รวมตัวอย่าง สร้างกราฟ และจัดวางกราฟ • ปุ่ม “การบันทึก” รวมส่งออก PNG ส่งออกขั้นตอน และคลังกราฟ • ปุ่ม “การเรียนรู้” รวมแบบฝึกหัดสุ่ม บทเรียน และอภิธานศัพท์ • เลือกอัลกอริทึมจากแผงด้านข้าง; กด ▼ เพื่อเปลี่ยน • เลือก “สี / รูปแบบ” แล้วแตะจุดเพื่อเปลี่ยนสีหรือเลือกรูป PNG/SVG โปร่งใส และแตะเส้นเพื่อเปลี่ยนสีหรือรูปแบบเส้น • ตั้งค่าสี/ภาพพื้นหลัง ภาพเริ่มต้นของจุดใหม่ และซ่อนป้ายชื่อจุดหรือน้ำหนักเส้นได้จาก “ตั้งค่าพื้นหลัง / จุดยอด”</div>
   <div class="note">💾 ระบบบันทึกอัตโนมัติในเบราว์เซอร์ (localStorage): จุด เส้น น้ำหนัก ทิศทาง ชื่อ สี/รูป PNG และ Source/Sink; ภาพ PNG ต้นฉบับเก็บใน vertex และแอปใช้ไฟล์ย่อสำหรับแสดงผล • ถ้ามี SVG จะใช้เป็น vector โดยตรง</div>
   <p><button type="button" class="btn primary" id="helpPreset">📂 เปิดตัวอย่างสาธิต</button></p>`);
 }
@@ -2454,13 +2622,13 @@ function init(){
   loadPreferences();
   const sharedGraph=decodeSharedGraph();
   if(sharedGraph)G=sharedGraph;
-  $('#tabs').innerHTML = Object.entries(TABS).map(([k,T]) => `<button type="button" class="btn tab" data-tab="${k}">${T.icon} ${T.name}</button>`).join('');
   renderMainNavigation();
   loadVertexOptions().catch(error=>{console.error('Could not initialize vertex image choices:',error);toast(`โหลดภาพจุดยอดไม่ได้: ${error.message}`);});
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if(b) setTab(b.dataset.tab); });
   $('#toggleTabs').addEventListener('click',()=>{
     const expanded=$('#tabs').hidden;
     $('#tabs').hidden=!expanded;
+    $('#dock').classList.toggle('tabs-open',expanded);
     $('#toggleTabs').textContent=expanded?'▲':'▼';
     $('#toggleTabs').setAttribute('aria-expanded',String(expanded));
   });
@@ -2471,10 +2639,10 @@ function init(){
     $$('[data-tool]').forEach(x => x.classList.toggle('on', x === b));
     updateCanvasCursor(); updateHint(); draw();
   });
-  $('#aDir').onclick = () => {
-    withLastCanvasSide(()=>commit(()=>{G.directed=!G.directed;}));
+  $('#aDir').onchange = e => {
+    const directed=e.target.value==='directed';
+    withLastCanvasSide(()=>commit(()=>{G.directed=directed;}));
     updateBadge();updateHint();
-    const directed=lastActiveSide==='right'&&isoSplitView&&isoGraph?isoGraph.directed:G.directed;
     toast(directed?'→ เปลี่ยนเป็นกราฟมีทิศทาง':'— เปลี่ยนเป็นกราฟไม่มีทิศทาง');
   };
   $('#aUndo').onclick = undo;
@@ -2483,18 +2651,15 @@ function init(){
     if(!G.edges.some(e=>e.curve))return toast('เส้นตรงอยู่แล้วทั้งหมด');
     commit(()=>G.edges.forEach(e=>e.curve=0),false);toast('📏 รีเซ็ตเป็นเส้นตรงแล้ว');
   });
-  $('#aPreset').onclick = showPresets;
-  $('#aLibrary').onclick = showGraphLibrary;
+  $('#aCreate').onclick = showCreateMenu;
+  $('#aSave').onclick = showSaveMenu;
   $('#aSettings').onclick = showSettings;
   $('#aLearning').onclick = ()=>showLearning();
-  $('#aGenerate').onclick = showGenerator;
   $('#aLayout').onclick = showLayouts;
   $('#searchNode').onclick = () => withLastCanvasSide(searchNode);
   $('#nodeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')withLastCanvasSide(searchNode);});
   $('#runCommand').onclick = () => withLastCanvasSide(runQuickCommand);
   $('#quickCommand').addEventListener('keydown',e=>{if(e.key==='Enter')withLastCanvasSide(runQuickCommand);});
-  $('#aPNG').onclick = exportPNG;
-  $('#aExportSteps').onclick = showStepExport;
   $('#aClear').onclick = () => withLastCanvasSide(()=>{
     if(!G.nodes.length)return;
     if(confirm('ล้างกราฟทั้งหมด? (กด Undo กลับได้)')){
@@ -2529,6 +2694,17 @@ function init(){
     if(e.target.closest('[data-quiz-hint]')&&activeQuiz)$('#quizFeedback').innerHTML=`<div class="note"><b>คำใบ้:</b> ${esc(activeQuiz.hint)}</div>`;
   });
   $('#mbody').addEventListener('click', e => {
+    const mainMenuAction=e.target.closest('[data-main-menu-action]');
+    if(mainMenuAction){
+      switch(mainMenuAction.dataset.mainMenuAction){
+        case 'examples': return showPresets();
+        case 'generate': return showGenerator();
+        case 'layout': return showLayouts();
+        case 'png': return exportPNG();
+        case 'steps': return showStepExport();
+        case 'library': return showGraphLibrary();
+      }
+    }
     const learningTab=e.target.closest('[data-learning-tab]');
     if(learningTab)return renderLearningSection(learningTab.dataset.learningTab);
     if(e.target.closest('[data-learning-start-practice]')){closeModal();return showPractice();}
@@ -2578,7 +2754,7 @@ function init(){
     if(libraryCompare){
       const item=library.find(entry=>entry.id===libraryCompare.dataset.libraryCompare);if(!item)return toast('ไม่พบกราฟในคลัง');
       closeModal();setTab('isomorphism');isoFirstGraph=null;isoGraph=sanitize(JSON.parse(JSON.stringify(item.graph)));isoMapping=null;isoColors=[];fitView();
-      const rect=$('#stage').getBoundingClientRect();isoView=fitGraphView(isoGraph,Math.max(1,rect.width-W),H);
+      const pane=isoPaneSize();isoView=fitGraphView(isoGraph,pane.width,pane.height);
       $('#isoRightStatus').textContent=`กราฟที่สอง: ${item.name} • ${isoGraph.nodes.length} จุด • ${isoGraph.edges.length} เส้น`;
       draw();return;
     }
